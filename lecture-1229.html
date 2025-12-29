@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>12/29 웹 개발 기초 - Vibe Coding</title>
+    <title>12/29 AI coding agent / Frontend 만들기 - Vibe Coding</title>
     <style>
       * {
         margin: 0;
@@ -311,19 +311,19 @@
 
       <div class="lecture-header">
         <div class="lecture-date">2025년 12월 29일</div>
-        <h1>웹 개발 기초</h1>
-        <p>HTML과 CSS로 나만의 웹페이지를 만들어봅니다</p>
+        <h1>AI coding agent / Frontend 만들기</h1>
+        <p>AI 코딩 도구와 웹 개발 기초를 배우고 Frontend를 만들어봅니다</p>
         <div class="tag-list">
-          <span class="tag html">HTML</span>
-          <span class="tag css">CSS</span>
+          <span class="tag html">AI</span>
+          <span class="tag css">Frontend</span>
         </div>
       </div>
 
       <div class="content-section">
         <h2>강의 개요</h2>
         <p>
-          웹 개발의 기초가 되는 HTML과 CSS를 배웁니다. 실습을 통해 간단한 랜딩
-          페이지를 직접 만들어보고, 반응형 레이아웃의 기본 개념을 익힙니다.
+          AI 코딩 도구(Claude, Cursor, Gemini CLI)를 소개하고, HTML/CSS/JavaScript의 기초를 배웁니다.
+          또한 MCP(Model Context Protocol)와 API의 개념과 활용 방법을 알아봅니다.
         </p>
       </div>
 
@@ -333,10 +333,9 @@
         <div class="topic-card">
           <div class="topic-number">01</div>
           <div class="topic-info">
-            <h4>HTML 기초</h4>
+            <h4>AI 코딩 도구 소개</h4>
             <p>
-              HTML 문서 구조, 시맨틱 태그, 폼 요소 등 웹페이지의 뼈대를 만드는
-              방법을 배웁니다.
+              Claude, Cursor, Gemini CLI 등 AI 기반 코딩 도구들을 알아봅니다.
             </p>
           </div>
         </div>
@@ -344,10 +343,9 @@
         <div class="topic-card">
           <div class="topic-number">02</div>
           <div class="topic-info">
-            <h4>CSS 스타일링</h4>
+            <h4>HTML/CSS/JS 기초</h4>
             <p>
-              선택자, 박스 모델, 색상, 폰트 등 웹페이지를 꾸미는 기본 CSS
-              속성들을 학습합니다.
+              웹페이지의 구조(HTML), 스타일(CSS), 동작(JavaScript)의 기초를 배웁니다.
             </p>
           </div>
         </div>
@@ -355,10 +353,9 @@
         <div class="topic-card">
           <div class="topic-number">03</div>
           <div class="topic-info">
-            <h4>Flexbox 레이아웃</h4>
+            <h4>MCP 소개</h4>
             <p>
-              유연한 1차원 레이아웃을 만드는 Flexbox의 핵심 개념과 속성을
-              배웁니다.
+              Model Context Protocol의 개념과 활용 방법을 알아봅니다.
             </p>
           </div>
         </div>
@@ -366,9 +363,9 @@
         <div class="topic-card">
           <div class="topic-number">04</div>
           <div class="topic-info">
-            <h4>CSS Grid</h4>
+            <h4>API 설명</h4>
             <p>
-              복잡한 2차원 레이아웃을 쉽게 만드는 CSS Grid 시스템을 학습합니다.
+              API의 개념과 웹 서비스에서 API를 활용하는 방법을 알아봅니다.
             </p>
           </div>
         </div>
@@ -376,32 +373,31 @@
 
       <div class="content-section">
         <h2>예제 코드</h2>
-        <p>기본적인 HTML 구조 예시입니다:</p>
+        <p>JavaScript로 API를 호출하는 예시입니다:</p>
         <div class="code-wrapper">
           <button class="copy-btn" onclick="copyCode(this)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
           </button>
-          <div class="code-block"><span class="tag">&lt;!DOCTYPE html&gt;</span>
-<span class="tag">&lt;html</span><span class="attr"> lang</span>=<span class="value">"ko"</span><span class="tag">&gt;</span>
-  <span class="tag">&lt;head&gt;</span>
-    <span class="tag">&lt;title&gt;</span>My Page<span class="tag">&lt;/title&gt;</span>
-  <span class="tag">&lt;/head&gt;</span>
-  <span class="tag">&lt;body&gt;</span>
-    <span class="tag">&lt;h1&gt;</span>Hello World!<span class="tag">&lt;/h1&gt;</span>
-  <span class="tag">&lt;/body&gt;</span>
-<span class="tag">&lt;/html&gt;</span></div>
+          <div class="code-block"><span class="attr">// API 호출 예제</span>
+<span class="tag">fetch</span>(<span class="value">'https://pokeapi.co/api/v2/pokemon/pikachu'</span>)
+  .<span class="tag">then</span>(response => response.<span class="tag">json</span>())
+  .<span class="tag">then</span>(data => {
+    <span class="tag">console</span>.<span class="tag">log</span>(<span class="value">'이름:'</span>, data.name);
+    <span class="tag">console</span>.<span class="tag">log</span>(<span class="value">'키:'</span>, data.height);
+  });</div>
         </div>
       </div>
 
       <div class="content-section">
         <h2>실습 결과물</h2>
-        <p>이번 강의에서 만든 랜딩 페이지를 확인해보세요:</p>
+        <p>이번 강의에서 다룬 내용을 확인해보세요:</p>
         <div class="download-section" style="margin-top: 1rem">
-          <a href="index.html" class="btn btn-primary">랜딩 페이지 보기</a>
-          <a href="practice-html-css.html" class="btn btn-secondary">HTML/CSS 실습</a>
-          <a href="practice-flexbox-grid.html" class="btn btn-secondary">Flexbox/Grid 실습</a>
+          <a href="ai-tools.html" class="btn btn-primary">AI 코딩 도구 소개</a>
+          <a href="html-css-js.html" class="btn btn-secondary">HTML/CSS/JS 기초</a>
+          <a href="mcp-intro.html" class="btn btn-secondary">MCP 소개</a>
+          <a href="api-intro.html" class="btn btn-secondary">API 설명</a>
         </div>
       </div>
 
@@ -409,16 +405,10 @@
         <h2>강의 자료</h2>
         <div class="download-section">
           <a
-            href="files/02-html-css.pdf"
+            href="files/1주차 AI를 이용한 웹페이지 만들기 (바이브 코딩) 김종건.pdf"
             target="_blank"
             class="btn btn-primary"
-            >HTML/CSS 보기</a
-          >
-          <a
-            href="files/03-flexbox-grid.pdf"
-            target="_blank"
-            class="btn btn-primary"
-            >Flexbox/Grid 보기</a
+            >1주차 강의자료 보기</a
           >
         </div>
       </div>

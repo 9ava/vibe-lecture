@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>API 소개 - Vibe Coding</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f5f7fa;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #6366f1;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #555;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #6366f1;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 100px 20px 40px;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #6366f1;
+        text-decoration: none;
+        margin-bottom: 2rem;
+        font-weight: 500;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      .page-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 3rem;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+      }
+
+      .page-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .page-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      .content-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        margin-bottom: 1.5rem;
+      }
+
+      .content-section h2 {
+        font-size: 1.5rem;
+        color: #1a1a2e;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #667eea;
+      }
+
+      .content-section h3 {
+        font-size: 1.2rem;
+        color: #333;
+        margin: 1.5rem 0 0.75rem;
+      }
+
+      .content-section p {
+        color: #555;
+        margin-bottom: 1rem;
+      }
+
+      .content-section ul {
+        margin-left: 1.5rem;
+        color: #555;
+      }
+
+      .content-section li {
+        margin-bottom: 0.75rem;
+      }
+
+      .diagram-box {
+        background: #f8f9fa;
+        border: 2px dashed #ddd;
+        border-radius: 12px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        text-align: center;
+      }
+
+      .diagram-box .flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .diagram-box .box {
+        background: white;
+        border: 2px solid #667eea;
+        border-radius: 8px;
+        padding: 1rem 1.5rem;
+        font-weight: 500;
+      }
+
+      .diagram-box .arrow {
+        font-size: 1.5rem;
+        color: #667eea;
+      }
+
+      .api-card {
+        display: flex;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        border-left: 4px solid #667eea;
+      }
+
+      .api-icon {
+        font-size: 2.5rem;
+        min-width: 60px;
+        text-align: center;
+      }
+
+      .api-info h3 {
+        font-size: 1.2rem;
+        color: #1a1a2e;
+        margin-bottom: 0.5rem;
+      }
+
+      .api-info p {
+        color: #666;
+        font-size: 0.95rem;
+        margin: 0 0 0.5rem 0;
+      }
+
+      .tip-box {
+        background: #e8f4fd;
+        border: 1px solid #2196f3;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+      }
+
+      .tip-box strong {
+        color: #1565c0;
+      }
+
+      .example-box {
+        background: #f3e5f5;
+        border: 1px solid #9c27b0;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+      }
+
+      .example-box strong {
+        color: #7b1fa2;
+      }
+
+      .code-wrapper {
+        position: relative;
+        margin: 1rem 0;
+      }
+
+      .code-block {
+        background: #1a1a2e;
+        color: #e0e0e0;
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: "Fira Code", "Consolas", monospace;
+        font-size: 0.85rem;
+        margin: 0;
+        white-space: pre;
+      }
+
+      .copy-btn {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: #999;
+        padding: 0.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
+
+      .copy-btn.copied {
+        color: #4caf50;
+      }
+
+      .copy-btn svg {
+        width: 18px;
+        height: 18px;
+      }
+
+      .code-label {
+        background: #333;
+        color: #fff;
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px 4px 0 0;
+        font-size: 0.75rem;
+        display: inline-block;
+        margin-bottom: -1rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      .method-tag {
+        display: inline-block;
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        margin-right: 0.5rem;
+      }
+
+      .method-get {
+        background: #e3f2fd;
+        color: #1565c0;
+      }
+
+      .method-post {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+
+      .method-put {
+        background: #fff3e0;
+        color: #e65100;
+      }
+
+      .method-delete {
+        background: #ffebee;
+        color: #c62828;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .btn-primary {
+        background: #667eea;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #5a6fd6;
+      }
+
+      @media (max-width: 768px) {
+        .page-header {
+          padding: 2rem;
+        }
+
+        .page-header h1 {
+          font-size: 1.75rem;
+        }
+
+        .api-card {
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+
+        .diagram-box .flow {
+          flex-direction: column;
+        }
+
+        .diagram-box .arrow {
+          transform: rotate(90deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html" class="logo">Vibe</a>
+      <ul class="nav-links">
+        <li><a href="index.html">홈</a></li>
+        <li><a href="lectures.html">강의 자료</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <a href="lectures.html" class="back-link">← 강의 목록으로</a>
+
+      <div class="page-header">
+        <h1>API 소개</h1>
+        <p>Application Programming Interface - 프로그램들이 서로 대화하는 방법</p>
+      </div>
+
+      <div class="content-section">
+        <h2>API란?</h2>
+        <p>
+          API(Application Programming Interface)는 서로 다른 프로그램이나 서비스가
+          소통할 수 있게 해주는 인터페이스입니다. 쉽게 말해, 프로그램들 사이의
+          "약속된 대화 방법"입니다.
+        </p>
+        <div class="tip-box">
+          <strong>쉽게 말하면:</strong> 식당에서 웨이터가 손님과 주방 사이를 연결해주듯,
+          API는 프로그램들 사이를 연결해주는 "웨이터" 역할을 합니다.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>API 작동 방식</h2>
+        <p>API는 요청(Request)과 응답(Response)으로 작동합니다.</p>
+        <div class="diagram-box">
+          <div class="flow">
+            <div class="box">클라이언트<br />(웹/앱)</div>
+            <span class="arrow">→ 요청</span>
+            <div class="box">API 서버</div>
+            <span class="arrow">→ 응답</span>
+            <div class="box">클라이언트<br />(웹/앱)</div>
+          </div>
+        </div>
+        <div class="example-box">
+          <strong>예시:</strong> 날씨 앱에서 "서울 날씨" 버튼을 누르면,
+          앱이 날씨 API에 "서울 날씨 알려줘"라고 요청하고,
+          API가 "맑음, 15도"라고 응답합니다.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>일상에서 만나는 API</h2>
+
+        <div class="api-card">
+          <div class="api-icon">🗺️</div>
+          <div class="api-info">
+            <h3>지도 API</h3>
+            <p>카카오맵, 네이버 지도, Google Maps 등을 내 웹사이트에 삽입할 수 있습니다.</p>
+          </div>
+        </div>
+
+        <div class="api-card">
+          <div class="api-icon">🔐</div>
+          <div class="api-info">
+            <h3>소셜 로그인 API</h3>
+            <p>카카오, 구글, 네이버 계정으로 다른 서비스에 로그인할 수 있습니다.</p>
+          </div>
+        </div>
+
+        <div class="api-card">
+          <div class="api-icon">💳</div>
+          <div class="api-info">
+            <h3>결제 API</h3>
+            <p>토스, 카카오페이, 네이버페이 등으로 온라인 결제를 처리합니다.</p>
+          </div>
+        </div>
+
+        <div class="api-card">
+          <div class="api-icon">🤖</div>
+          <div class="api-info">
+            <h3>AI API</h3>
+            <p>ChatGPT, Claude 등 AI 모델을 내 서비스에서 사용할 수 있습니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>HTTP 메서드</h2>
+        <p>API 요청에는 여러 종류가 있습니다:</p>
+        <ul>
+          <li><span class="method-tag method-get">GET</span> 데이터 조회 (읽기)</li>
+          <li><span class="method-tag method-post">POST</span> 데이터 생성 (쓰기)</li>
+          <li><span class="method-tag method-put">PUT</span> 데이터 수정 (업데이트)</li>
+          <li><span class="method-tag method-delete">DELETE</span> 데이터 삭제</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h2>API 호출 예제</h2>
+        <p>JavaScript로 API를 호출하는 간단한 예제입니다:</p>
+
+        <h3>1. 데이터 가져오기 (GET)</h3>
+        <span class="code-label">JavaScript</span>
+        <div class="code-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+          </button>
+          <div class="code-block">// 포켓몬 정보 가져오기
+fetch('https://pokeapi.co/api/v2/pokemon/pikachu')
+  .then(response => response.json())
+  .then(data => {
+    console.log('이름:', data.name);
+    console.log('키:', data.height);
+  });</div>
+        </div>
+
+        <h3>2. async/await 사용</h3>
+        <span class="code-label">JavaScript</span>
+        <div class="code-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+          </button>
+          <div class="code-block">// 더 읽기 쉬운 방법
+async function getPokemon() {
+  const response = await fetch('https://pokeapi.co/api/v2/pokemon/pikachu');
+  const data = await response.json();
+  console.log(data);
+}
+
+getPokemon();</div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>API 응답 형식</h2>
+        <p>대부분의 API는 JSON 형식으로 응답합니다:</p>
+        <span class="code-label">JSON</span>
+        <div class="code-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+          </button>
+          <div class="code-block">{
+  "name": "pikachu",
+  "height": 4,
+  "weight": 60,
+  "types": [
+    { "type": { "name": "electric" } }
+  ]
+}</div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>유용한 무료 API</h2>
+        <ul>
+          <li><strong>PokeAPI</strong> - 포켓몬 정보 (pokeapi.co)</li>
+          <li><strong>JSONPlaceholder</strong> - 테스트용 가짜 데이터</li>
+          <li><strong>OpenWeatherMap</strong> - 날씨 정보</li>
+          <li><strong>The Cat API</strong> - 고양이 사진</li>
+          <li><strong>공공데이터포털</strong> - 한국 공공 데이터</li>
+        </ul>
+      </div>
+
+      <div class="content-section">
+        <h2>더 알아보기</h2>
+        <a href="https://pokeapi.co" target="_blank" class="btn btn-primary">PokeAPI 체험하기</a>
+        <a href="https://www.data.go.kr" target="_blank" class="btn btn-primary">공공데이터포털</a>
+      </div>
+    </div>
+
+    <script>
+      function copyCode(button) {
+        const codeBlock = button.nextElementSibling;
+        const code = codeBlock.textContent;
+
+        navigator.clipboard.writeText(code).then(() => {
+          button.classList.add("copied");
+          button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          `;
+
+          setTimeout(() => {
+            button.classList.remove("copied");
+            button.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            `;
+          }, 2000);
+        });
+      }
+    </script>
+  </body>
+</html>
