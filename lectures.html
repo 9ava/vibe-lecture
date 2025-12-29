@@ -109,6 +109,44 @@
         color: white;
       }
 
+      /* 정렬 컨트롤 */
+      .sort-control {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .sort-label {
+        font-size: 0.9rem;
+        color: #666;
+      }
+
+      .sort-btn {
+        padding: 0.4rem 1rem;
+        border: 2px solid #e0e0e0;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 0.85rem;
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .sort-btn:hover {
+        border-color: #6366f1;
+        color: #6366f1;
+      }
+
+      .sort-btn.active {
+        background: #6366f1;
+        border-color: #6366f1;
+        color: white;
+      }
+
       /* 강의 자료 섹션 */
       .lecture-section {
         margin-bottom: 2.5rem;
@@ -294,12 +332,19 @@
         <button class="filter-btn" data-filter="2025-12">2025년 12월</button>
       </div>
 
-      <!-- 2025년 12월 강의 -->
-      <div class="lecture-section" data-month="2025-12">
-        <a href="lecture-1222.html" class="date-header">
-          <span class="date-badge">12/22</span>
-          <span class="date-title">바이브 코딩 소개</span>
-        </a>
+      <div class="sort-control">
+        <span class="sort-label">정렬:</span>
+        <button class="sort-btn" data-sort="asc">오래된순 ↑</button>
+        <button class="sort-btn active" data-sort="desc">최신순 ↓</button>
+      </div>
+
+      <div id="lecture-container">
+        <!-- 2025년 12월 강의 -->
+        <div class="lecture-section" data-month="2025-12" data-date="2025-12-22">
+          <a href="lecture-1222.html" class="date-header">
+            <span class="date-badge">12/22</span>
+            <span class="date-title">바이브 코딩 소개</span>
+          </a>
         <div class="lecture-list">
           <div class="lecture-card">
             <div class="lecture-info">
@@ -317,7 +362,7 @@
         </div>
       </div>
 
-      <div class="lecture-section" data-month="2025-12">
+      <div class="lecture-section" data-month="2025-12" data-date="2025-12-29">
         <a href="lecture-1229.html" class="date-header">
           <span class="date-badge">12/29</span>
           <span class="date-title">웹 개발 기초</span>
@@ -352,6 +397,7 @@
           </div>
         </div>
       </div>
+      </div>
     </div>
 
     <script>
@@ -377,6 +423,41 @@
           });
         });
       });
+
+      // 정렬 기능
+      const sortBtns = document.querySelectorAll(".sort-btn");
+      const container = document.getElementById("lecture-container");
+
+      function sortSections(order) {
+        const sectionsArray = Array.from(container.querySelectorAll(".lecture-section"));
+
+        sectionsArray.sort((a, b) => {
+          const dateA = new Date(a.dataset.date);
+          const dateB = new Date(b.dataset.date);
+
+          if (order === "asc") {
+            return dateA - dateB;
+          } else {
+            return dateB - dateA;
+          }
+        });
+
+        // 정렬된 순서로 다시 추가
+        sectionsArray.forEach((section) => {
+          container.appendChild(section);
+        });
+      }
+
+      sortBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          sortBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          sortSections(btn.dataset.sort);
+        });
+      });
+
+      // 초기 정렬 (최신순)
+      sortSections("desc");
     </script>
   </body>
 </html>
