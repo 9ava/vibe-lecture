@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>12/29 웹 개발 기초 - Vibe Coding</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f5f7fa;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #6366f1;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #555;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #6366f1;
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 100px 20px 40px;
+      }
+
+      .back-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: #6366f1;
+        text-decoration: none;
+        margin-bottom: 2rem;
+        font-weight: 500;
+      }
+
+      .back-link:hover {
+        text-decoration: underline;
+      }
+
+      .lecture-header {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        color: white;
+        padding: 3rem;
+        border-radius: 16px;
+        margin-bottom: 2rem;
+      }
+
+      .lecture-date {
+        font-size: 1rem;
+        opacity: 0.9;
+        margin-bottom: 0.5rem;
+      }
+
+      .lecture-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+      }
+
+      .lecture-header p {
+        font-size: 1.1rem;
+        opacity: 0.9;
+      }
+
+      .content-section {
+        background: white;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        margin-bottom: 1.5rem;
+      }
+
+      .content-section h2 {
+        font-size: 1.5rem;
+        color: #1a1a2e;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #f5576c;
+      }
+
+      .content-section h3 {
+        font-size: 1.2rem;
+        color: #333;
+        margin: 1.5rem 0 0.75rem;
+      }
+
+      .content-section p {
+        color: #555;
+        margin-bottom: 1rem;
+      }
+
+      .content-section ul {
+        margin-left: 1.5rem;
+        color: #555;
+      }
+
+      .content-section li {
+        margin-bottom: 0.5rem;
+      }
+
+      .code-block {
+        background: #1a1a2e;
+        color: #e0e0e0;
+        padding: 1.5rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        font-family: "Fira Code", "Consolas", monospace;
+        font-size: 0.9rem;
+        margin: 1rem 0;
+      }
+
+      .code-block .tag {
+        color: #f5576c;
+      }
+
+      .code-block .attr {
+        color: #f093fb;
+      }
+
+      .code-block .value {
+        color: #7dd3fc;
+      }
+
+      .topic-card {
+        display: flex;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        border-left: 4px solid #f5576c;
+      }
+
+      .topic-number {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #f5576c;
+        min-width: 40px;
+      }
+
+      .topic-info h4 {
+        font-size: 1.1rem;
+        color: #1a1a2e;
+        margin-bottom: 0.25rem;
+      }
+
+      .topic-info p {
+        color: #666;
+        font-size: 0.95rem;
+        margin: 0;
+      }
+
+      .download-section {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .btn-primary {
+        background: #f5576c;
+        color: white;
+      }
+
+      .btn-primary:hover {
+        background: #e04458;
+      }
+
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      .btn-secondary:hover {
+        background: #e0e0e0;
+      }
+
+      .tag-list {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .tag {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+      }
+
+      .tag.html {
+        background: #fff3e0;
+        color: #e65100;
+      }
+
+      .tag.css {
+        background: #e3f2fd;
+        color: #1565c0;
+      }
+
+      @media (max-width: 768px) {
+        .lecture-header {
+          padding: 2rem;
+        }
+
+        .lecture-header h1 {
+          font-size: 1.75rem;
+        }
+
+        .topic-card {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html" class="logo">Vibe</a>
+      <ul class="nav-links">
+        <li><a href="index.html">홈</a></li>
+        <li><a href="lectures.html">강의 자료</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <a href="lectures.html" class="back-link">← 강의 목록으로</a>
+
+      <div class="lecture-header">
+        <div class="lecture-date">2025년 12월 29일</div>
+        <h1>웹 개발 기초</h1>
+        <p>HTML과 CSS로 나만의 웹페이지를 만들어봅니다</p>
+        <div class="tag-list">
+          <span class="tag html">HTML</span>
+          <span class="tag css">CSS</span>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>강의 개요</h2>
+        <p>
+          웹 개발의 기초가 되는 HTML과 CSS를 배웁니다. 실습을 통해 간단한 랜딩
+          페이지를 직접 만들어보고, 반응형 레이아웃의 기본 개념을 익힙니다.
+        </p>
+      </div>
+
+      <div class="content-section">
+        <h2>학습 내용</h2>
+
+        <div class="topic-card">
+          <div class="topic-number">01</div>
+          <div class="topic-info">
+            <h4>HTML 기초</h4>
+            <p>
+              HTML 문서 구조, 시맨틱 태그, 폼 요소 등 웹페이지의 뼈대를 만드는
+              방법을 배웁니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="topic-card">
+          <div class="topic-number">02</div>
+          <div class="topic-info">
+            <h4>CSS 스타일링</h4>
+            <p>
+              선택자, 박스 모델, 색상, 폰트 등 웹페이지를 꾸미는 기본 CSS
+              속성들을 학습합니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="topic-card">
+          <div class="topic-number">03</div>
+          <div class="topic-info">
+            <h4>Flexbox 레이아웃</h4>
+            <p>
+              유연한 1차원 레이아웃을 만드는 Flexbox의 핵심 개념과 속성을
+              배웁니다.
+            </p>
+          </div>
+        </div>
+
+        <div class="topic-card">
+          <div class="topic-number">04</div>
+          <div class="topic-info">
+            <h4>CSS Grid</h4>
+            <p>
+              복잡한 2차원 레이아웃을 쉽게 만드는 CSS Grid 시스템을 학습합니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>예제 코드</h2>
+        <p>기본적인 HTML 구조 예시입니다:</p>
+        <div class="code-block">
+          <span class="tag">&lt;!DOCTYPE html&gt;</span><br />
+          <span class="tag">&lt;html</span>
+          <span class="attr"> lang</span>=<span class="value">"ko"</span
+          ><span class="tag">&gt;</span><br />
+          &nbsp;&nbsp;<span class="tag">&lt;head&gt;</span><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;title&gt;</span>My
+          Page<span class="tag">&lt;/title&gt;</span><br />
+          &nbsp;&nbsp;<span class="tag">&lt;/head&gt;</span><br />
+          &nbsp;&nbsp;<span class="tag">&lt;body&gt;</span><br />
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="tag">&lt;h1&gt;</span>Hello
+          World!<span class="tag">&lt;/h1&gt;</span><br />
+          &nbsp;&nbsp;<span class="tag">&lt;/body&gt;</span><br />
+          <span class="tag">&lt;/html&gt;</span>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>실습 결과물</h2>
+        <p>이번 강의에서 만든 랜딩 페이지를 확인해보세요:</p>
+        <div class="download-section" style="margin-top: 1rem">
+          <a href="index.html" class="btn btn-primary">랜딩 페이지 보기</a>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>강의 자료 다운로드</h2>
+        <div class="download-section">
+          <a
+            href="files/02-html-css.pdf"
+            target="_blank"
+            class="btn btn-primary"
+            >HTML/CSS 자료</a
+          >
+          <a href="files/02-html-css.pdf" download class="btn btn-secondary"
+            >PDF 다운로드</a
+          >
+          <a
+            href="files/03-flexbox-grid.pdf"
+            target="_blank"
+            class="btn btn-primary"
+            >Flexbox/Grid 자료</a
+          >
+          <a href="files/03-flexbox-grid.pdf" download class="btn btn-secondary"
+            >PDF 다운로드</a
+          >
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
