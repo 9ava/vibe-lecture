@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vibe - AI 코딩 강의</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        line-height: 1.6;
+        color: #333;
+      }
+
+      /* 네비게이션 */
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #6366f1;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #555;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #6366f1;
+      }
+
+      /* 히어로 섹션 */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .hero-content h1 {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero-content p {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 1rem 2rem;
+        background: white;
+        color: #6366f1;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: bold;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      /* 기능 섹션 */
+      .features {
+        padding: 5rem 5%;
+        background: #f8f9fa;
+      }
+
+      .features h2 {
+        text-align: center;
+        font-size: 2rem;
+        margin-bottom: 3rem;
+        color: #333;
+      }
+
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .feature-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        text-align: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+      }
+
+      .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+
+      .feature-card h3 {
+        margin-bottom: 0.5rem;
+        color: #333;
+      }
+
+      .feature-card p {
+        color: #666;
+      }
+
+      /* CTA 섹션 */
+      .cta {
+        padding: 5rem 5%;
+        text-align: center;
+        background: #1a1a2e;
+        color: white;
+      }
+
+      .cta h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+
+      .cta p {
+        margin-bottom: 2rem;
+        opacity: 0.8;
+      }
+
+      .btn-primary {
+        background: #6366f1;
+        color: white;
+      }
+
+      /* 푸터 */
+      footer {
+        padding: 2rem 5%;
+        text-align: center;
+        background: #111;
+        color: #888;
+      }
+
+      /* 반응형 */
+      @media (max-width: 768px) {
+        .hero-content h1 {
+          font-size: 2rem;
+        }
+
+        .nav-links {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">Vibe</div>
+      <ul class="nav-links">
+        <li><a href="#features">기능</a></li>
+        <li><a href="lectures.html">강의 자료</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero">
+      <div class="hero-content">
+        <h1>AI와 함께하는 코딩</h1>
+        <p>바이브 코딩으로 더 빠르고 즐겁게 개발하세요</p>
+        <a href="lectures.html" class="btn">강의 자료</a>
+      </div>
+    </section>
+
+    <section class="features" id="features">
+      <h2>왜 바이브 코딩인가요?</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🚀</div>
+          <h3>빠른 개발</h3>
+          <p>AI가 코드를 자동 완성해주어 개발 속도가 10배 빨라집니다</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>정확한 코드</h3>
+          <p>컨텍스트를 이해하고 정확한 코드를 제안합니다</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💡</div>
+          <h3>학습 도우미</h3>
+          <p>코드를 설명해주고 더 나은 방법을 알려줍니다</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="cta">
+      <h2>지금 바로 시작하세요</h2>
+      <p>매일 매일 재밌는 코딩 라이프</p>
+    </section>
+
+    <footer>
+      <p>&copy; 2025 Vibe Coding 김종건. All rights reserved.</p>
+    </footer>
+  </body>
+</html>

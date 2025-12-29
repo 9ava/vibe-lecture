@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>강의 자료 - Vibe Coding</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f5f7fa;
+      }
+
+      /* 네비게이션 */
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #6366f1;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #555;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover {
+        color: #6366f1;
+      }
+
+      /* 메인 컨테이너 */
+      .container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 100px 20px 40px;
+      }
+
+      .page-header {
+        text-align: center;
+        margin-bottom: 3rem;
+      }
+
+      .page-header h1 {
+        font-size: 2.5rem;
+        color: #1a1a2e;
+        margin-bottom: 0.5rem;
+      }
+
+      .page-header p {
+        color: #666;
+        font-size: 1.1rem;
+      }
+
+      /* 날짜 필터 탭 */
+      .date-filter {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .filter-btn {
+        padding: 0.5rem 1.25rem;
+        border: 2px solid #e0e0e0;
+        background: white;
+        border-radius: 25px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        transition: all 0.3s;
+      }
+
+      .filter-btn:hover {
+        border-color: #6366f1;
+        color: #6366f1;
+      }
+
+      .filter-btn.active {
+        background: #6366f1;
+        border-color: #6366f1;
+        color: white;
+      }
+
+      /* 강의 자료 섹션 */
+      .lecture-section {
+        margin-bottom: 2.5rem;
+      }
+
+      .date-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #6366f1;
+      }
+
+      .date-badge {
+        background: #6366f1;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-weight: bold;
+      }
+
+      .date-title {
+        font-size: 1.25rem;
+        color: #333;
+      }
+
+      /* 강의 카드 */
+      .lecture-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .lecture-card {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: transform 0.2s, box-shadow 0.2s;
+      }
+
+      .lecture-card:hover {
+        transform: translateX(5px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+      }
+
+      .lecture-info h3 {
+        font-size: 1.1rem;
+        color: #1a1a2e;
+        margin-bottom: 0.25rem;
+      }
+
+      .lecture-info p {
+        color: #888;
+        font-size: 0.9rem;
+      }
+
+      .lecture-meta {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .tag {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        background: #f0f0f0;
+        color: #666;
+      }
+
+      .tag.html {
+        background: #fff3e0;
+        color: #e65100;
+      }
+
+      .tag.css {
+        background: #e3f2fd;
+        color: #1565c0;
+      }
+
+      .tag.js {
+        background: #fff8e1;
+        color: #f9a825;
+      }
+
+      .lecture-actions {
+        display: flex;
+        gap: 0.75rem;
+      }
+
+      .btn-small {
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .btn-view {
+        background: #6366f1;
+        color: white;
+      }
+
+      .btn-view:hover {
+        background: #4f46e5;
+      }
+
+      .btn-download {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      .btn-download:hover {
+        background: #e0e0e0;
+      }
+
+      /* 빈 상태 */
+      .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: #888;
+      }
+
+      .empty-state span {
+        font-size: 3rem;
+        display: block;
+        margin-bottom: 1rem;
+      }
+
+      /* 반응형 */
+      @media (max-width: 768px) {
+        .lecture-card {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1rem;
+        }
+
+        .lecture-actions {
+          width: 100%;
+        }
+
+        .btn-small {
+          flex: 1;
+          text-align: center;
+        }
+
+        .nav-links {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html" class="logo">Vibe</a>
+      <ul class="nav-links">
+        <li><a href="index.html">홈</a></li>
+        <li><a href="lectures.html">강의 자료</a></li>
+      </ul>
+    </nav>
+
+    <div class="container">
+      <div class="page-header">
+        <h1>강의 자료</h1>
+        <p>날짜별로 강의 자료를 확인하세요</p>
+      </div>
+
+      <div class="date-filter">
+        <button class="filter-btn active" data-filter="all">전체</button>
+        <button class="filter-btn" data-filter="2025-12">2025년 12월</button>
+      </div>
+
+      <!-- 2025년 12월 강의 -->
+      <div class="lecture-section" data-month="2025-12">
+        <div class="date-header">
+          <span class="date-badge">12/22</span>
+          <span class="date-title">바이브 코딩 소개</span>
+        </div>
+        <div class="lecture-list">
+          <div class="lecture-card">
+            <div class="lecture-info">
+              <h3>AI 코딩 도구 소개</h3>
+              <p>Claude, Cursor, GitHub Copilot 비교</p>
+              <div class="lecture-meta">
+                <span class="tag">이론</span>
+              </div>
+            </div>
+            <div class="lecture-actions">
+              <a href="files/01-ai-tools.pdf" target="_blank" class="btn-small btn-view">보기</a>
+              <a href="files/01-ai-tools.pdf" download class="btn-small btn-download">다운로드</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lecture-section" data-month="2025-12">
+        <div class="date-header">
+          <span class="date-badge">12/29</span>
+          <span class="date-title">웹 개발 기초</span>
+        </div>
+        <div class="lecture-list">
+          <div class="lecture-card">
+            <div class="lecture-info">
+              <h3>HTML/CSS 기초</h3>
+              <p>랜딩 페이지 만들기 실습</p>
+              <div class="lecture-meta">
+                <span class="tag html">HTML</span>
+                <span class="tag css">CSS</span>
+              </div>
+            </div>
+            <div class="lecture-actions">
+              <a href="files/02-html-css.pdf" target="_blank" class="btn-small btn-view">보기</a>
+              <a href="files/02-html-css.pdf" download class="btn-small btn-download">다운로드</a>
+            </div>
+          </div>
+          <div class="lecture-card">
+            <div class="lecture-info">
+              <h3>Flexbox & Grid 레이아웃</h3>
+              <p>반응형 레이아웃 구성하기</p>
+              <div class="lecture-meta">
+                <span class="tag css">CSS</span>
+              </div>
+            </div>
+            <div class="lecture-actions">
+              <a href="files/03-flexbox-grid.pdf" target="_blank" class="btn-small btn-view">보기</a>
+              <a href="files/03-flexbox-grid.pdf" download class="btn-small btn-download">다운로드</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // 날짜 필터 기능
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      const sections = document.querySelectorAll(".lecture-section");
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          // 활성 버튼 변경
+          filterBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+
+          const filter = btn.dataset.filter;
+
+          // 섹션 필터링
+          sections.forEach((section) => {
+            if (filter === "all" || section.dataset.month === filter) {
+              section.style.display = "block";
+            } else {
+              section.style.display = "none";
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
