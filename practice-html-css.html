@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>12/29 웹 개발 기초 실습 - Vibe Coding</title>
+    <title>HTML/CSS 기초 실습 - Vibe Coding</title>
     <style>
       * {
         margin: 0;
@@ -76,17 +76,11 @@
       }
 
       .practice-header {
-        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        background: linear-gradient(135deg, #e65100 0%, #ff9800 100%);
         color: white;
         padding: 3rem;
         border-radius: 16px;
         margin-bottom: 2rem;
-      }
-
-      .practice-date {
-        font-size: 1rem;
-        opacity: 0.9;
-        margin-bottom: 0.5rem;
       }
 
       .practice-header h1 {
@@ -97,6 +91,20 @@
       .practice-header p {
         font-size: 1.1rem;
         opacity: 0.9;
+      }
+
+      .tag-list {
+        display: flex;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+
+      .tag {
+        font-size: 0.8rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.2);
+        color: white;
       }
 
       .content-section {
@@ -112,7 +120,7 @@
         color: #1a1a2e;
         margin-bottom: 1rem;
         padding-bottom: 0.5rem;
-        border-bottom: 2px solid #11998e;
+        border-bottom: 2px solid #e65100;
       }
 
       .content-section p {
@@ -120,7 +128,6 @@
         margin-bottom: 1rem;
       }
 
-      .content-section ol,
       .content-section ul {
         margin-left: 1.5rem;
         color: #555;
@@ -131,15 +138,15 @@
       }
 
       .step-card {
-        background: #f8f9fa;
-        border-left: 4px solid #11998e;
+        background: #fff3e0;
+        border-left: 4px solid #e65100;
         padding: 1.5rem;
         border-radius: 0 12px 12px 0;
         margin-bottom: 1rem;
       }
 
       .step-card h3 {
-        color: #11998e;
+        color: #e65100;
         margin-bottom: 0.5rem;
       }
 
@@ -155,8 +162,9 @@
         border-radius: 8px;
         overflow-x: auto;
         font-family: "Fira Code", "Consolas", monospace;
-        font-size: 0.9rem;
+        font-size: 0.85rem;
         margin: 1rem 0;
+        white-space: pre;
       }
 
       .btn {
@@ -171,33 +179,12 @@
       }
 
       .btn-primary {
-        background: #11998e;
+        background: #e65100;
         color: white;
       }
 
       .btn-primary:hover {
-        background: #0d7d74;
-      }
-
-      .btn-secondary {
-        background: #f0f0f0;
-        color: #333;
-      }
-
-      .btn-secondary:hover {
-        background: #e0e0e0;
-      }
-
-      .tip-box {
-        background: #fff3cd;
-        border: 1px solid #ffc107;
-        padding: 1rem 1.5rem;
-        border-radius: 8px;
-        margin: 1rem 0;
-      }
-
-      .tip-box strong {
-        color: #856404;
+        background: #bf360c;
       }
 
       @media (max-width: 768px) {
@@ -228,19 +215,21 @@
       <a href="lecture-1229.html" class="back-link">← 강의로 돌아가기</a>
 
       <div class="practice-header">
-        <div class="practice-date">2025년 12월 29일 실습</div>
-        <h1>웹 개발 기초 실습</h1>
-        <p>HTML과 CSS로 랜딩 페이지를 직접 만들어봅니다</p>
+        <h1>HTML/CSS 기초 실습</h1>
+        <p>랜딩 페이지의 기본 구조를 만들어봅니다</p>
+        <div class="tag-list">
+          <span class="tag">HTML</span>
+          <span class="tag">CSS</span>
+        </div>
       </div>
 
       <div class="content-section">
         <h2>실습 목표</h2>
-        <p>이번 실습에서는 다음을 직접 만들어봅니다:</p>
         <ul>
-          <li>히어로 섹션이 있는 랜딩 페이지</li>
-          <li>Flexbox를 활용한 네비게이션</li>
-          <li>CSS Grid로 구성한 카드 레이아웃</li>
-          <li>반응형 디자인 적용</li>
+          <li>HTML 문서의 기본 구조 이해하기</li>
+          <li>시맨틱 태그 사용법 익히기 (nav, section, footer)</li>
+          <li>CSS 선택자와 속성 사용하기</li>
+          <li>박스 모델 이해하기 (margin, padding, border)</li>
         </ul>
       </div>
 
@@ -248,69 +237,96 @@
         <h2>실습 단계</h2>
 
         <div class="step-card">
-          <h3>Step 1: 프로젝트 설정</h3>
-          <p>새 폴더를 만들고 index.html 파일을 생성합니다.</p>
+          <h3>Step 1: HTML 기본 구조</h3>
+          <p>DOCTYPE, html, head, body 태그로 문서 구조를 만듭니다.</p>
         </div>
 
         <div class="step-card">
-          <h3>Step 2: HTML 구조 작성</h3>
-          <p>기본 HTML 문서 구조와 시맨틱 태그를 작성합니다.</p>
+          <h3>Step 2: 네비게이션 만들기</h3>
+          <p>nav 태그 안에 로고와 메뉴 링크를 추가합니다.</p>
         </div>
 
         <div class="step-card">
-          <h3>Step 3: CSS 스타일링</h3>
-          <p>네비게이션, 히어로 섹션, 카드 레이아웃에 스타일을 적용합니다.</p>
+          <h3>Step 3: 히어로 섹션</h3>
+          <p>큰 제목과 설명, CTA 버튼이 있는 섹션을 만듭니다.</p>
         </div>
 
         <div class="step-card">
-          <h3>Step 4: 반응형 적용</h3>
-          <p>미디어 쿼리를 사용해 모바일 화면에 대응합니다.</p>
+          <h3>Step 4: CSS 스타일 적용</h3>
+          <p>색상, 폰트, 여백 등 기본 스타일을 적용합니다.</p>
         </div>
       </div>
 
       <div class="content-section">
-        <h2>기본 HTML 템플릿</h2>
+        <h2>시작 코드</h2>
         <p>아래 코드를 복사해서 시작하세요:</p>
-        <div class="code-block">
-&lt;!DOCTYPE html&gt;
+        <div class="code-block">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
   &lt;meta charset="UTF-8"&gt;
   &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-  &lt;title&gt;My Landing Page&lt;/title&gt;
+  &lt;title&gt;My First Page&lt;/title&gt;
   &lt;style&gt;
-    /* 여기에 CSS 작성 */
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    nav {
+      background: #6366f1;
+      color: white;
+      padding: 1rem;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 100px 20px;
+      background: #f0f0f0;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 1rem 2rem;
+      background: #6366f1;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+    }
   &lt;/style&gt;
 &lt;/head&gt;
 &lt;body&gt;
   &lt;nav&gt;
-    &lt;!-- 네비게이션 --&gt;
+    &lt;span&gt;My Logo&lt;/span&gt;
   &lt;/nav&gt;
 
   &lt;section class="hero"&gt;
-    &lt;!-- 히어로 섹션 --&gt;
-  &lt;/section&gt;
-
-  &lt;section class="features"&gt;
-    &lt;!-- 기능 소개 카드 --&gt;
+    &lt;h1&gt;Welcome!&lt;/h1&gt;
+    &lt;p&gt;나만의 웹페이지를 만들어보세요&lt;/p&gt;
+    &lt;a href="#" class="btn"&gt;시작하기&lt;/a&gt;
   &lt;/section&gt;
 &lt;/body&gt;
-&lt;/html&gt;
-        </div>
+&lt;/html&gt;</div>
+      </div>
+
+      <div class="content-section">
+        <h2>도전 과제</h2>
+        <ul>
+          <li>네비게이션에 메뉴 링크 3개 추가하기</li>
+          <li>히어로 섹션 배경에 그라데이션 적용하기</li>
+          <li>버튼에 hover 효과 추가하기</li>
+          <li>푸터 섹션 추가하기</li>
+        </ul>
       </div>
 
       <div class="content-section">
         <h2>완성 예시</h2>
-        <p>이번 실습에서 만들 페이지의 완성본을 확인해보세요:</p>
-        <div style="margin-top: 1rem">
-          <a href="index.html" class="btn btn-primary">완성 예시 보기</a>
-          <a href="https://github.com/9ava/vibe-lecture" target="_blank" class="btn btn-secondary">GitHub 코드 보기</a>
-        </div>
-      </div>
-
-      <div class="tip-box">
-        <strong>Tip:</strong> 막히는 부분이 있으면 Claude Code에게 물어보세요!
-        "히어로 섹션 CSS 어떻게 작성해?" 처럼 질문하면 됩니다.
+        <a href="index.html" class="btn btn-primary">완성본 보기</a>
       </div>
     </div>
   </body>
