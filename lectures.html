@@ -179,6 +179,15 @@
       .date-title {
         font-size: 1.25rem;
         color: #333;
+        flex: 1;
+      }
+
+      .date-header-actions {
+        margin-left: auto;
+      }
+
+      .date-header-actions .btn-small {
+        margin-left: 0.5rem;
       }
 
       /* 강의 카드 */
@@ -341,10 +350,15 @@
       <div id="lecture-container">
         <!-- 2025년 12월 강의 -->
         <div class="lecture-section" data-month="2025-12" data-date="2025-12-22">
-          <a href="lecture-1222.html" class="date-header">
-            <span class="date-badge">12/22</span>
-            <span class="date-title">바이브 코딩 소개</span>
-          </a>
+          <div class="date-header">
+            <a href="lecture-1222.html" style="display: flex; align-items: center; gap: 1rem; text-decoration: none;">
+              <span class="date-badge">12/22</span>
+              <span class="date-title">바이브 코딩 소개</span>
+            </a>
+            <div class="date-header-actions">
+              <a href="files/1주차 AI를 이용한 웹페이지 만들기 (바이브 코딩) 김종건.pdf" target="_blank" class="btn-small btn-view">강의자료</a>
+            </div>
+          </div>
         <div class="lecture-list">
           <div class="lecture-card">
             <div class="lecture-info">
@@ -353,9 +367,6 @@
               <div class="lecture-meta">
                 <span class="tag">실습</span>
               </div>
-            </div>
-            <div class="lecture-actions">
-              <a href="files/1주차 AI를 이용한 웹페이지 만들기 (바이브 코딩) 김종건.pdf" target="_blank" class="btn-small btn-view">강의자료</a>
             </div>
           </div>
         </div>
