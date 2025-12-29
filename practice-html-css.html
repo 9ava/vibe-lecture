@@ -155,6 +155,11 @@
         color: #666;
       }
 
+      .code-wrapper {
+        position: relative;
+        margin: 1rem 0;
+      }
+
       .code-block {
         background: #1a1a2e;
         color: #e0e0e0;
@@ -163,8 +168,38 @@
         overflow-x: auto;
         font-family: "Fira Code", "Consolas", monospace;
         font-size: 0.85rem;
-        margin: 1rem 0;
+        margin: 0;
         white-space: pre;
+      }
+
+      .copy-btn {
+        position: absolute;
+        top: 0.5rem;
+        right: 0.5rem;
+        background: rgba(255, 255, 255, 0.1);
+        border: none;
+        color: #999;
+        padding: 0.5rem;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .copy-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
+
+      .copy-btn.copied {
+        color: #4caf50;
+      }
+
+      .copy-btn svg {
+        width: 18px;
+        height: 18px;
       }
 
       .btn {
@@ -260,7 +295,13 @@
       <div class="content-section">
         <h2>시작 코드</h2>
         <p>아래 코드를 복사해서 시작하세요:</p>
-        <div class="code-block">&lt;!DOCTYPE html&gt;
+        <div class="code-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+          </button>
+          <div class="code-block">&lt;!DOCTYPE html&gt;
 &lt;html lang="ko"&gt;
 &lt;head&gt;
   &lt;meta charset="UTF-8"&gt;
@@ -312,6 +353,7 @@
   &lt;/section&gt;
 &lt;/body&gt;
 &lt;/html&gt;</div>
+        </div>
       </div>
 
       <div class="content-section">
@@ -329,5 +371,30 @@
         <a href="index.html" class="btn btn-primary">완성본 보기</a>
       </div>
     </div>
+
+    <script>
+      function copyCode(button) {
+        const codeBlock = button.nextElementSibling;
+        const code = codeBlock.textContent;
+
+        navigator.clipboard.writeText(code).then(() => {
+          button.classList.add("copied");
+          button.innerHTML = `
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          `;
+
+          setTimeout(() => {
+            button.classList.remove("copied");
+            button.innerHTML = `
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+              </svg>
+            `;
+          }, 2000);
+        });
+      }
+    </script>
   </body>
 </html>

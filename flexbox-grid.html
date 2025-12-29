@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flexbox & Grid 실습 - Vibe Coding</title>
+    <title>Flexbox & Grid 레이아웃 - Vibe Coding</title>
     <style>
       * {
         margin: 0;
@@ -75,7 +75,7 @@
         text-decoration: underline;
       }
 
-      .practice-header {
+      .page-header {
         background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
         color: white;
         padding: 3rem;
@@ -83,12 +83,12 @@
         margin-bottom: 2rem;
       }
 
-      .practice-header h1 {
+      .page-header h1 {
         font-size: 2.5rem;
         margin-bottom: 1rem;
       }
 
-      .practice-header p {
+      .page-header p {
         font-size: 1.1rem;
         opacity: 0.9;
       }
@@ -143,8 +143,37 @@
         margin-bottom: 0.75rem;
       }
 
-      .demo-box {
+      .concept-card {
+        display: flex;
+        gap: 1.5rem;
+        padding: 1.5rem;
         background: #e3f2fd;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        border-left: 4px solid #1565c0;
+      }
+
+      .concept-icon {
+        font-size: 2.5rem;
+        min-width: 60px;
+        text-align: center;
+      }
+
+      .concept-info h3 {
+        font-size: 1.2rem;
+        color: #1a1a2e;
+        margin-bottom: 0.5rem;
+        margin-top: 0;
+      }
+
+      .concept-info p {
+        color: #666;
+        font-size: 0.95rem;
+        margin: 0;
+      }
+
+      .demo-box {
+        background: #f8f9fa;
         border: 2px dashed #1565c0;
         padding: 1.5rem;
         border-radius: 12px;
@@ -173,6 +202,23 @@
         text-align: center;
       }
 
+      .flex-demo-center {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
+      }
+
+      .flex-demo-between {
+        display: flex;
+        justify-content: space-between;
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
+      }
+
       /* Grid 데모 */
       .grid-demo {
         display: grid;
@@ -189,6 +235,15 @@
         padding: 2rem;
         border-radius: 4px;
         text-align: center;
+      }
+
+      .grid-demo-auto {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 1rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
       }
 
       .code-wrapper {
@@ -238,6 +293,25 @@
         height: 18px;
       }
 
+      .comparison-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1rem;
+      }
+
+      .comparison-table th,
+      .comparison-table td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+      }
+
+      .comparison-table th {
+        background: #f8f9fa;
+        font-weight: 600;
+        color: #1a1a2e;
+      }
+
       .btn {
         display: inline-block;
         padding: 0.75rem 1.5rem;
@@ -258,13 +332,39 @@
         background: #0d47a1;
       }
 
+      .btn-secondary {
+        background: #f0f0f0;
+        color: #333;
+      }
+
+      .btn-secondary:hover {
+        background: #e0e0e0;
+      }
+
+      .tip-box {
+        background: #e8f5e9;
+        border: 1px solid #4caf50;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
+        margin: 1rem 0;
+      }
+
+      .tip-box strong {
+        color: #2e7d32;
+      }
+
       @media (max-width: 768px) {
-        .practice-header {
+        .page-header {
           padding: 2rem;
         }
 
-        .practice-header h1 {
+        .page-header h1 {
           font-size: 1.75rem;
+        }
+
+        .concept-card {
+          flex-direction: column;
+          gap: 1rem;
         }
 
         .nav-links {
@@ -275,7 +375,9 @@
           grid-template-columns: 1fr;
         }
 
-        .flex-demo {
+        .flex-demo,
+        .flex-demo-center,
+        .flex-demo-between {
           flex-direction: column;
         }
       }
@@ -291,11 +393,11 @@
     </nav>
 
     <div class="container">
-      <a href="lecture-1229.html" class="back-link">← 강의로 돌아가기</a>
+      <a href="lectures.html" class="back-link">← 강의 목록으로</a>
 
-      <div class="practice-header">
-        <h1>Flexbox & Grid 실습</h1>
-        <p>반응형 레이아웃을 만들어봅니다</p>
+      <div class="page-header">
+        <h1>Flexbox & Grid 레이아웃</h1>
+        <p>CSS로 유연하고 반응형인 레이아웃을 만드는 방법을 배웁니다</p>
         <div class="tag-list">
           <span class="tag">CSS</span>
           <span class="tag">Flexbox</span>
@@ -304,20 +406,36 @@
       </div>
 
       <div class="content-section">
-        <h2>실습 목표</h2>
-        <ul>
-          <li>Flexbox로 1차원 레이아웃 만들기</li>
-          <li>CSS Grid로 카드 레이아웃 구성하기</li>
-          <li>미디어 쿼리로 반응형 적용하기</li>
-        </ul>
+        <h2>왜 Flexbox와 Grid인가?</h2>
+        <p>
+          과거에는 float, position, table 등을 사용해 레이아웃을 만들었지만,
+          복잡하고 유지보수가 어려웠습니다. Flexbox와 Grid는 이런 문제를 해결하기 위해 만들어진 현대적인 레이아웃 시스템입니다.
+        </p>
+
+        <div class="concept-card">
+          <div class="concept-icon">📐</div>
+          <div class="concept-info">
+            <h3>Flexbox</h3>
+            <p>1차원(가로 또는 세로) 레이아웃에 최적화. 네비게이션, 카드 정렬, 센터링에 적합합니다.</p>
+          </div>
+        </div>
+
+        <div class="concept-card">
+          <div class="concept-icon">🔲</div>
+          <div class="concept-info">
+            <h3>CSS Grid</h3>
+            <p>2차원(행과 열) 레이아웃에 최적화. 페이지 전체 구조, 대시보드, 갤러리에 적합합니다.</p>
+          </div>
+        </div>
       </div>
 
       <div class="content-section">
         <h2>Flexbox 기초</h2>
-        <p>Flexbox는 1차원(가로 또는 세로) 레이아웃에 적합합니다.</p>
+        <p><code>display: flex</code>를 부모 요소에 적용하면 자식 요소들이 유연하게 배치됩니다.</p>
 
+        <h3>기본 사용법</h3>
         <div class="demo-box">
-          <h4>Flexbox 예시</h4>
+          <h4>기본 Flex (가로 정렬)</h4>
           <div class="flex-demo">
             <div class="box">1</div>
             <div class="box">2</div>
@@ -333,27 +451,65 @@
           </button>
           <div class="code-block">.container {
   display: flex;
-  justify-content: space-between;  /* 가로 정렬 */
-  align-items: center;             /* 세로 정렬 */
-  gap: 1rem;                       /* 간격 */
+  gap: 1rem;
 }</div>
         </div>
 
-        <h3>주요 속성</h3>
+        <h3>justify-content (메인 축 정렬)</h3>
+        <div class="demo-box">
+          <h4>center - 가운데 정렬</h4>
+          <div class="flex-demo-center">
+            <div class="box">1</div>
+            <div class="box">2</div>
+            <div class="box">3</div>
+          </div>
+        </div>
+
+        <div class="demo-box">
+          <h4>space-between - 양끝 정렬</h4>
+          <div class="flex-demo-between">
+            <div class="box">1</div>
+            <div class="box">2</div>
+            <div class="box">3</div>
+          </div>
+        </div>
+
+        <div class="code-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+          </button>
+          <div class="code-block">/* 가운데 정렬 */
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+/* 양끝 정렬 (네비게이션에 유용) */
+.container {
+  display: flex;
+  justify-content: space-between;
+}</div>
+        </div>
+
+        <h3>주요 속성 정리</h3>
         <ul>
-          <li><strong>justify-content</strong>: 메인 축 정렬 (flex-start, center, space-between)</li>
-          <li><strong>align-items</strong>: 교차 축 정렬 (flex-start, center, stretch)</li>
-          <li><strong>flex-direction</strong>: 방향 (row, column)</li>
+          <li><strong>justify-content</strong>: 메인 축 정렬 (flex-start, center, flex-end, space-between, space-around)</li>
+          <li><strong>align-items</strong>: 교차 축 정렬 (flex-start, center, flex-end, stretch)</li>
+          <li><strong>flex-direction</strong>: 방향 (row, column, row-reverse, column-reverse)</li>
+          <li><strong>flex-wrap</strong>: 줄바꿈 (nowrap, wrap)</li>
           <li><strong>gap</strong>: 아이템 간격</li>
         </ul>
       </div>
 
       <div class="content-section">
         <h2>CSS Grid 기초</h2>
-        <p>Grid는 2차원(행과 열) 레이아웃에 적합합니다.</p>
+        <p><code>display: grid</code>를 사용하면 행과 열로 구성된 2차원 레이아웃을 쉽게 만들 수 있습니다.</p>
 
+        <h3>기본 사용법</h3>
         <div class="demo-box">
-          <h4>Grid 예시</h4>
+          <h4>3열 Grid</h4>
           <div class="grid-demo">
             <div class="box">1</div>
             <div class="box">2</div>
@@ -374,39 +530,90 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);  /* 3열 균등 분배 */
   gap: 1rem;
-}
-
-/* 반응형: 모바일에서 1열 */
-@media (max-width: 768px) {
-  .container {
-    grid-template-columns: 1fr;
-  }
 }</div>
         </div>
 
-        <h3>주요 속성</h3>
+        <h3>반응형 Grid (auto-fit)</h3>
+        <div class="demo-box">
+          <h4>화면 크기에 따라 자동 조절</h4>
+          <div class="grid-demo-auto">
+            <div class="box">1</div>
+            <div class="box">2</div>
+            <div class="box">3</div>
+            <div class="box">4</div>
+          </div>
+        </div>
+
+        <div class="code-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+            </svg>
+          </button>
+          <div class="code-block">/* 최소 200px, 자동으로 열 개수 조절 */
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}</div>
+        </div>
+
+        <h3>주요 속성 정리</h3>
         <ul>
           <li><strong>grid-template-columns</strong>: 열 정의</li>
           <li><strong>grid-template-rows</strong>: 행 정의</li>
           <li><strong>gap</strong>: 행/열 간격</li>
           <li><strong>repeat()</strong>: 반복 패턴</li>
           <li><strong>1fr</strong>: 남은 공간 균등 분배</li>
+          <li><strong>minmax()</strong>: 최소/최대 크기 지정</li>
+          <li><strong>auto-fit / auto-fill</strong>: 자동 열 개수 조절</li>
         </ul>
       </div>
 
       <div class="content-section">
-        <h2>도전 과제</h2>
-        <ul>
-          <li>Flexbox로 네비게이션 만들기 (로고 왼쪽, 메뉴 오른쪽)</li>
-          <li>Grid로 3열 카드 레이아웃 만들기</li>
-          <li>768px 이하에서 1열로 변경되는 반응형 적용</li>
-          <li>auto-fit과 minmax()로 유동적 그리드 만들기</li>
-        </ul>
+        <h2>Flexbox vs Grid 비교</h2>
+        <table class="comparison-table">
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th>Flexbox</th>
+              <th>Grid</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>차원</td>
+              <td>1차원 (가로 또는 세로)</td>
+              <td>2차원 (가로와 세로)</td>
+            </tr>
+            <tr>
+              <td>적합한 용도</td>
+              <td>네비게이션, 버튼 그룹, 센터링</td>
+              <td>페이지 레이아웃, 카드 그리드</td>
+            </tr>
+            <tr>
+              <td>아이템 크기</td>
+              <td>콘텐츠 기반</td>
+              <td>트랙(행/열) 기반</td>
+            </tr>
+            <tr>
+              <td>정렬 방식</td>
+              <td>메인/교차 축</td>
+              <td>행/열 축</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="tip-box">
+          <strong>Tip:</strong> 둘 중 하나만 사용할 필요 없습니다! 페이지 전체는 Grid로, 내부 컴포넌트는 Flexbox로 조합해서 사용하세요.
+        </div>
       </div>
 
       <div class="content-section">
-        <h2>완성 예시</h2>
-        <a href="index.html" class="btn btn-primary">완성본 보기</a>
+        <h2>실습하기</h2>
+        <p>직접 코드를 작성하며 배워보세요:</p>
+        <a href="practice-flexbox-grid.html" class="btn btn-primary">실습 페이지</a>
+        <a href="files/03-flexbox-grid.pdf" target="_blank" class="btn btn-secondary">PDF 자료</a>
       </div>
     </div>
 

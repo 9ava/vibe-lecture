@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flexbox & Grid 실습 - Vibe Coding</title>
+    <title>MCP 소개 - Vibe Coding</title>
     <style>
       * {
         margin: 0;
@@ -75,36 +75,22 @@
         text-decoration: underline;
       }
 
-      .practice-header {
-        background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+      .page-header {
+        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
         color: white;
         padding: 3rem;
         border-radius: 16px;
         margin-bottom: 2rem;
       }
 
-      .practice-header h1 {
+      .page-header h1 {
         font-size: 2.5rem;
         margin-bottom: 1rem;
       }
 
-      .practice-header p {
+      .page-header p {
         font-size: 1.1rem;
         opacity: 0.9;
-      }
-
-      .tag-list {
-        display: flex;
-        gap: 0.5rem;
-        margin-top: 1rem;
-      }
-
-      .tag {
-        font-size: 0.8rem;
-        padding: 0.25rem 0.75rem;
-        border-radius: 15px;
-        background: rgba(255, 255, 255, 0.2);
-        color: white;
       }
 
       .content-section {
@@ -120,12 +106,12 @@
         color: #1a1a2e;
         margin-bottom: 1rem;
         padding-bottom: 0.5rem;
-        border-bottom: 2px solid #1565c0;
+        border-bottom: 2px solid #11998e;
       }
 
       .content-section h3 {
         font-size: 1.2rem;
-        color: #1565c0;
+        color: #333;
         margin: 1.5rem 0 0.75rem;
       }
 
@@ -143,52 +129,86 @@
         margin-bottom: 0.75rem;
       }
 
-      .demo-box {
-        background: #e3f2fd;
-        border: 2px dashed #1565c0;
-        padding: 1.5rem;
+      .diagram-box {
+        background: #f8f9fa;
+        border: 2px dashed #ddd;
         border-radius: 12px;
+        padding: 2rem;
+        margin: 1.5rem 0;
+        text-align: center;
+      }
+
+      .diagram-box .flow {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .diagram-box .box {
+        background: white;
+        border: 2px solid #11998e;
+        border-radius: 8px;
+        padding: 1rem 1.5rem;
+        font-weight: 500;
+      }
+
+      .diagram-box .arrow {
+        font-size: 1.5rem;
+        color: #11998e;
+      }
+
+      .server-card {
+        display: flex;
+        gap: 1.5rem;
+        padding: 1.5rem;
+        background: #f8f9fa;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        border-left: 4px solid #11998e;
+      }
+
+      .server-icon {
+        font-size: 2.5rem;
+        min-width: 60px;
+        text-align: center;
+      }
+
+      .server-info h3 {
+        font-size: 1.2rem;
+        color: #1a1a2e;
+        margin-bottom: 0.5rem;
+      }
+
+      .server-info p {
+        color: #666;
+        font-size: 0.95rem;
+        margin: 0 0 0.5rem 0;
+      }
+
+      .tip-box {
+        background: #e8f5e9;
+        border: 1px solid #4caf50;
+        padding: 1rem 1.5rem;
+        border-radius: 8px;
         margin: 1rem 0;
       }
 
-      .demo-box h4 {
-        color: #1565c0;
-        margin-bottom: 1rem;
+      .tip-box strong {
+        color: #2e7d32;
       }
 
-      /* Flexbox 데모 */
-      .flex-demo {
-        display: flex;
-        gap: 1rem;
-        padding: 1rem;
-        background: white;
+      .warning-box {
+        background: #fff3e0;
+        border: 1px solid #ff9800;
+        padding: 1rem 1.5rem;
         border-radius: 8px;
+        margin: 1rem 0;
       }
 
-      .flex-demo .box {
-        background: #1565c0;
-        color: white;
-        padding: 1rem 2rem;
-        border-radius: 4px;
-        text-align: center;
-      }
-
-      /* Grid 데모 */
-      .grid-demo {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-        padding: 1rem;
-        background: white;
-        border-radius: 8px;
-      }
-
-      .grid-demo .box {
-        background: #42a5f5;
-        color: white;
-        padding: 2rem;
-        border-radius: 4px;
-        text-align: center;
+      .warning-box strong {
+        color: #e65100;
       }
 
       .code-wrapper {
@@ -238,6 +258,18 @@
         height: 18px;
       }
 
+      .code-label {
+        background: #333;
+        color: #fff;
+        padding: 0.25rem 0.75rem;
+        border-radius: 4px 4px 0 0;
+        font-size: 0.75rem;
+        display: inline-block;
+        margin-bottom: -1rem;
+        position: relative;
+        z-index: 1;
+      }
+
       .btn {
         display: inline-block;
         padding: 0.75rem 1.5rem;
@@ -250,33 +282,38 @@
       }
 
       .btn-primary {
-        background: #1565c0;
+        background: #11998e;
         color: white;
       }
 
       .btn-primary:hover {
-        background: #0d47a1;
+        background: #0d7d74;
       }
 
       @media (max-width: 768px) {
-        .practice-header {
+        .page-header {
           padding: 2rem;
         }
 
-        .practice-header h1 {
+        .page-header h1 {
           font-size: 1.75rem;
+        }
+
+        .server-card {
+          flex-direction: column;
+          gap: 1rem;
         }
 
         .nav-links {
           display: none;
         }
 
-        .grid-demo {
-          grid-template-columns: 1fr;
+        .diagram-box .flow {
+          flex-direction: column;
         }
 
-        .flex-demo {
-          flex-direction: column;
+        .diagram-box .arrow {
+          transform: rotate(90deg);
         }
       }
     </style>
@@ -291,122 +328,133 @@
     </nav>
 
     <div class="container">
-      <a href="lecture-1229.html" class="back-link">← 강의로 돌아가기</a>
+      <a href="lectures.html" class="back-link">← 강의 목록으로</a>
 
-      <div class="practice-header">
-        <h1>Flexbox & Grid 실습</h1>
-        <p>반응형 레이아웃을 만들어봅니다</p>
-        <div class="tag-list">
-          <span class="tag">CSS</span>
-          <span class="tag">Flexbox</span>
-          <span class="tag">Grid</span>
+      <div class="page-header">
+        <h1>MCP 소개</h1>
+        <p>Model Context Protocol - AI를 더 강력하게 만드는 연결 기술</p>
+      </div>
+
+      <div class="content-section">
+        <h2>MCP란?</h2>
+        <p>
+          MCP(Model Context Protocol)는 AI 모델이 외부 도구, 데이터, 서비스와
+          통신할 수 있게 해주는 개방형 프로토콜입니다. Anthropic에서 개발했으며,
+          AI가 더 많은 일을 할 수 있도록 확장해줍니다.
+        </p>
+        <div class="tip-box">
+          <strong>쉽게 말하면:</strong> AI에게 새로운 능력을 추가해주는 "플러그인 시스템"입니다.
         </div>
       </div>
 
       <div class="content-section">
-        <h2>실습 목표</h2>
+        <h2>MCP 작동 방식</h2>
+        <p>MCP는 AI 클라이언트와 서버 사이의 다리 역할을 합니다.</p>
+        <div class="diagram-box">
+          <div class="flow">
+            <div class="box">AI 클라이언트<br />(Claude Code 등)</div>
+            <span class="arrow">↔</span>
+            <div class="box">MCP 프로토콜</div>
+            <span class="arrow">↔</span>
+            <div class="box">MCP 서버<br />(외부 도구)</div>
+          </div>
+        </div>
         <ul>
-          <li>Flexbox로 1차원 레이아웃 만들기</li>
-          <li>CSS Grid로 카드 레이아웃 구성하기</li>
-          <li>미디어 쿼리로 반응형 적용하기</li>
+          <li><strong>AI 클라이언트:</strong> Claude Code, Cursor 등 AI 도구</li>
+          <li><strong>MCP 서버:</strong> 파일 시스템, 데이터베이스, API 등에 접근하는 서버</li>
+          <li><strong>프로토콜:</strong> 둘 사이의 표준화된 통신 방식</li>
         </ul>
       </div>
 
       <div class="content-section">
-        <h2>Flexbox 기초</h2>
-        <p>Flexbox는 1차원(가로 또는 세로) 레이아웃에 적합합니다.</p>
+        <h2>MCP로 할 수 있는 것들</h2>
 
-        <div class="demo-box">
-          <h4>Flexbox 예시</h4>
-          <div class="flex-demo">
-            <div class="box">1</div>
-            <div class="box">2</div>
-            <div class="box">3</div>
+        <div class="server-card">
+          <div class="server-icon">📁</div>
+          <div class="server-info">
+            <h3>파일 시스템 접근</h3>
+            <p>로컬 파일을 읽고 쓰고 검색할 수 있습니다.</p>
           </div>
         </div>
 
+        <div class="server-card">
+          <div class="server-icon">🌐</div>
+          <div class="server-info">
+            <h3>웹 검색 및 브라우징</h3>
+            <p>실시간으로 웹에서 정보를 검색하고 가져올 수 있습니다.</p>
+          </div>
+        </div>
+
+        <div class="server-card">
+          <div class="server-icon">🗄️</div>
+          <div class="server-info">
+            <h3>데이터베이스 연결</h3>
+            <p>PostgreSQL, SQLite 등 데이터베이스를 쿼리할 수 있습니다.</p>
+          </div>
+        </div>
+
+        <div class="server-card">
+          <div class="server-icon">🔧</div>
+          <div class="server-info">
+            <h3>외부 API 연동</h3>
+            <p>GitHub, Slack, Notion 등 다양한 서비스와 연동할 수 있습니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>Claude Code에서 MCP 사용하기</h2>
+        <p>Claude Code는 MCP를 기본 지원합니다. 설정 파일에 MCP 서버를 추가하면 됩니다.</p>
+
+        <h3>1. 설정 파일 위치</h3>
+        <span class="code-label">경로</span>
         <div class="code-wrapper">
           <button class="copy-btn" onclick="copyCode(this)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
           </button>
-          <div class="code-block">.container {
-  display: flex;
-  justify-content: space-between;  /* 가로 정렬 */
-  align-items: center;             /* 세로 정렬 */
-  gap: 1rem;                       /* 간격 */
-}</div>
+          <div class="code-block">~/.claude/claude_desktop_config.json</div>
         </div>
 
-        <h3>주요 속성</h3>
-        <ul>
-          <li><strong>justify-content</strong>: 메인 축 정렬 (flex-start, center, space-between)</li>
-          <li><strong>align-items</strong>: 교차 축 정렬 (flex-start, center, stretch)</li>
-          <li><strong>flex-direction</strong>: 방향 (row, column)</li>
-          <li><strong>gap</strong>: 아이템 간격</li>
-        </ul>
-      </div>
-
-      <div class="content-section">
-        <h2>CSS Grid 기초</h2>
-        <p>Grid는 2차원(행과 열) 레이아웃에 적합합니다.</p>
-
-        <div class="demo-box">
-          <h4>Grid 예시</h4>
-          <div class="grid-demo">
-            <div class="box">1</div>
-            <div class="box">2</div>
-            <div class="box">3</div>
-            <div class="box">4</div>
-            <div class="box">5</div>
-            <div class="box">6</div>
-          </div>
-        </div>
-
+        <h3>2. MCP 서버 설정 예시</h3>
+        <span class="code-label">JSON</span>
         <div class="code-wrapper">
           <button class="copy-btn" onclick="copyCode(this)">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
             </svg>
           </button>
-          <div class="code-block">.container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* 3열 균등 분배 */
-  gap: 1rem;
-}
-
-/* 반응형: 모바일에서 1열 */
-@media (max-width: 768px) {
-  .container {
-    grid-template-columns: 1fr;
+          <div class="code-block">{
+  "mcpServers": {
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/folder"]
+    }
   }
 }</div>
         </div>
 
-        <h3>주요 속성</h3>
+        <div class="warning-box">
+          <strong>주의:</strong> MCP 서버는 시스템에 접근할 수 있으므로, 신뢰할 수 있는 서버만 사용하세요.
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>인기 있는 MCP 서버</h2>
         <ul>
-          <li><strong>grid-template-columns</strong>: 열 정의</li>
-          <li><strong>grid-template-rows</strong>: 행 정의</li>
-          <li><strong>gap</strong>: 행/열 간격</li>
-          <li><strong>repeat()</strong>: 반복 패턴</li>
-          <li><strong>1fr</strong>: 남은 공간 균등 분배</li>
+          <li><strong>@modelcontextprotocol/server-filesystem</strong> - 파일 시스템 접근</li>
+          <li><strong>@modelcontextprotocol/server-github</strong> - GitHub 연동</li>
+          <li><strong>@modelcontextprotocol/server-postgres</strong> - PostgreSQL 데이터베이스</li>
+          <li><strong>@modelcontextprotocol/server-slack</strong> - Slack 메시지 연동</li>
+          <li><strong>@modelcontextprotocol/server-memory</strong> - 지식 그래프 저장</li>
         </ul>
       </div>
 
       <div class="content-section">
-        <h2>도전 과제</h2>
-        <ul>
-          <li>Flexbox로 네비게이션 만들기 (로고 왼쪽, 메뉴 오른쪽)</li>
-          <li>Grid로 3열 카드 레이아웃 만들기</li>
-          <li>768px 이하에서 1열로 변경되는 반응형 적용</li>
-          <li>auto-fit과 minmax()로 유동적 그리드 만들기</li>
-        </ul>
-      </div>
-
-      <div class="content-section">
-        <h2>완성 예시</h2>
-        <a href="index.html" class="btn btn-primary">완성본 보기</a>
+        <h2>더 알아보기</h2>
+        <a href="https://modelcontextprotocol.io" target="_blank" class="btn btn-primary">MCP 공식 문서</a>
+        <a href="https://github.com/modelcontextprotocol" target="_blank" class="btn btn-primary">GitHub 저장소</a>
       </div>
     </div>
 
