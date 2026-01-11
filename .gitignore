@@ -3,3 +3,6 @@
 
 # Serena
 .serena/
+
+# MCP config
+.mcp.json
