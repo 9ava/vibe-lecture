@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게시판 - Vibe</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          sans-serif;
+        line-height: 1.6;
+        color: #333;
+        background: #f8f9fa;
+      }
+
+      /* 네비게이션 */
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 5%;
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        position: fixed;
+        width: 100%;
+        top: 0;
+        z-index: 100;
+      }
+
+      .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #6366f1;
+        text-decoration: none;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: #555;
+        transition: color 0.3s;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: #6366f1;
+      }
+
+      /* 햄버거 메뉴 */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+        padding: 5px;
+        z-index: 1001;
+      }
+
+      .hamburger span {
+        width: 25px;
+        height: 3px;
+        background: #333;
+        border-radius: 3px;
+        transition: all 0.3s;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translate(6px, 6px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translate(6px, -6px);
+      }
+
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(255, 255, 255, 0.98);
+        z-index: 999;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .mobile-menu.active {
+        display: flex;
+      }
+
+      .mobile-menu a {
+        font-size: 1.5rem;
+        text-decoration: none;
+        color: #333;
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .mobile-menu a:hover {
+        color: #6366f1;
+      }
+
+      /* 메인 컨텐츠 */
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 100px 20px 40px;
+      }
+
+      .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+      }
+
+      .page-header h1 {
+        font-size: 2rem;
+        color: #333;
+      }
+
+      .btn-write {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        text-decoration: none;
+      }
+
+      .btn-write:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4);
+      }
+
+      /* 게시글 목록 테이블 */
+      .posts-table {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+
+      .table-header {
+        display: grid;
+        grid-template-columns: 80px 1fr 120px 100px;
+        padding: 1rem 1.5rem;
+        background: #f8f9fa;
+        font-weight: 600;
+        color: #555;
+        border-bottom: 2px solid #e0e0e0;
+      }
+
+      .post-row {
+        display: grid;
+        grid-template-columns: 80px 1fr 120px 100px;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #eee;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+
+      .post-row:hover {
+        background: #f8f9fa;
+      }
+
+      .post-row:last-child {
+        border-bottom: none;
+      }
+
+      .post-num {
+        color: #999;
+      }
+
+      .post-title-cell {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .post-title-text {
+        color: #333;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .badge-private {
+        background: #e74c3c;
+        color: white;
+        font-size: 0.7rem;
+        padding: 0.15rem 0.5rem;
+        border-radius: 10px;
+        flex-shrink: 0;
+      }
+
+      .post-author {
+        color: #6366f1;
+      }
+
+      .post-date {
+        color: #999;
+        font-size: 0.9rem;
+      }
+
+      /* 글쓰기 폼 */
+      .write-view {
+        display: none;
+      }
+
+      .write-view.active {
+        display: block;
+      }
+
+      .list-view {
+        display: block;
+      }
+
+      .list-view.hidden {
+        display: none;
+      }
+
+      .detail-view {
+        display: none;
+      }
+
+      .detail-view.active {
+        display: block;
+      }
+
+      .form-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .form-card h2 {
+        margin-bottom: 1.5rem;
+        color: #333;
+      }
+
+      .form-group {
+        margin-bottom: 1.25rem;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        color: #555;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 2px solid #e0e0e0;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: border-color 0.3s;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: #6366f1;
+      }
+
+      .form-group textarea {
+        min-height: 200px;
+        resize: vertical;
+      }
+
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .form-group-inline {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .checkbox-group input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+      }
+
+      .checkbox-group label {
+        margin: 0;
+        cursor: pointer;
+      }
+
+      .password-note {
+        font-size: 0.85rem;
+        color: #999;
+        margin-top: 0.25rem;
+      }
+
+      .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      .btn {
+        padding: 0.75rem 2rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s, box-shadow 0.3s;
+        border: none;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 20px rgba(99, 102, 241, 0.4);
+      }
+
+      .btn-secondary {
+        background: #e0e0e0;
+        color: #555;
+      }
+
+      .btn-secondary:hover {
+        background: #d0d0d0;
+      }
+
+      .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+      }
+
+      /* 상세 보기 */
+      .detail-card {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+
+      .detail-header {
+        padding: 1.5rem 2rem;
+        border-bottom: 1px solid #eee;
+      }
+
+      .detail-title {
+        font-size: 1.5rem;
+        color: #333;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .detail-meta {
+        display: flex;
+        gap: 1.5rem;
+        color: #666;
+        font-size: 0.95rem;
+      }
+
+      .detail-meta span {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .detail-content {
+        padding: 2rem;
+        min-height: 200px;
+        white-space: pre-wrap;
+        line-height: 1.8;
+      }
+
+      .detail-actions {
+        padding: 1.5rem 2rem;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+      }
+
+      .detail-actions-right {
+        display: flex;
+        gap: 0.5rem;
+      }
+
+      .btn-edit {
+        background: none;
+        border: 2px solid #f39c12;
+        color: #f39c12;
+        padding: 0.5rem 1.25rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .btn-edit:hover {
+        background: #f39c12;
+        color: white;
+      }
+
+      .btn-delete {
+        background: none;
+        border: 2px solid #e74c3c;
+        color: #e74c3c;
+        padding: 0.5rem 1.25rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .btn-delete:hover {
+        background: #e74c3c;
+        color: white;
+      }
+
+      .btn-back {
+        background: none;
+        border: 2px solid #6366f1;
+        color: #6366f1;
+        padding: 0.5rem 1.25rem;
+        border-radius: 50px;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.2s;
+      }
+
+      .btn-back:hover {
+        background: #6366f1;
+        color: white;
+      }
+
+      /* 비밀번호 모달 */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .modal-overlay.active {
+        display: flex;
+      }
+
+      .modal {
+        background: white;
+        padding: 2rem;
+        border-radius: 16px;
+        max-width: 400px;
+        width: 90%;
+      }
+
+      .modal h3 {
+        margin-bottom: 1rem;
+        color: #333;
+      }
+
+      .modal p {
+        margin-bottom: 1rem;
+        color: #666;
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1.5rem;
+      }
+
+      /* 로딩 & 에러 & 빈 상태 */
+      .loading {
+        text-align: center;
+        padding: 3rem;
+        color: #666;
+      }
+
+      .loading::after {
+        content: "";
+        display: inline-block;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #6366f1;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+        margin-left: 10px;
+        vertical-align: middle;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .error {
+        text-align: center;
+        padding: 2rem;
+        background: #ffeaea;
+        color: #e74c3c;
+        border-radius: 12px;
+      }
+
+      .empty {
+        text-align: center;
+        padding: 3rem;
+        color: #999;
+      }
+
+      /* 페이지네이션 */
+      .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 1.5rem;
+        flex-wrap: wrap;
+      }
+
+      .page-btn {
+        min-width: 40px;
+        height: 40px;
+        border: 2px solid #e0e0e0;
+        background: white;
+        color: #555;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 0.95rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .page-btn:hover:not(:disabled) {
+        border-color: #6366f1;
+        color: #6366f1;
+      }
+
+      .page-btn.active {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-color: transparent;
+        color: white;
+      }
+
+      .page-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      .page-btn.nav-btn {
+        padding: 0 1rem;
+      }
+
+      .page-info {
+        color: #666;
+        font-size: 0.9rem;
+        margin: 0 0.5rem;
+      }
+
+      /* 푸터 */
+      footer {
+        padding: 2rem 5%;
+        text-align: center;
+        background: #111;
+        color: #888;
+        margin-top: 3rem;
+      }
+
+      /* 반응형 */
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+
+        .hamburger {
+          display: flex;
+        }
+
+        .page-header {
+          flex-direction: column;
+          gap: 1rem;
+          text-align: center;
+        }
+
+        .page-header h1 {
+          font-size: 1.5rem;
+        }
+
+        .table-header {
+          display: none;
+        }
+
+        .post-row {
+          grid-template-columns: 1fr;
+          gap: 0.5rem;
+        }
+
+        .post-num {
+          display: none;
+        }
+
+        .post-title-cell {
+          font-weight: 600;
+        }
+
+        .post-author,
+        .post-date {
+          font-size: 0.85rem;
+        }
+
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+
+        .detail-meta {
+          flex-direction: column;
+          gap: 0.5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <a href="index.html" class="logo">Vibe</a>
+      <ul class="nav-links">
+        <li><a href="index.html">홈</a></li>
+        <li><a href="lectures.html">강의 자료</a></li>
+        <li><a href="board.html" class="active">게시판</a></li>
+      </ul>
+      <div class="hamburger" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <a href="index.html" onclick="toggleMenu()">홈</a>
+      <a href="lectures.html" onclick="toggleMenu()">강의 자료</a>
+      <a href="board.html" onclick="toggleMenu()">게시판</a>
+    </div>
+
+    <div class="container">
+      <!-- 목록 뷰 -->
+      <div class="list-view" id="listView">
+        <div class="page-header">
+          <h1>게시판</h1>
+          <button class="btn-write" onclick="showWriteView()">글쓰기</button>
+        </div>
+
+        <div class="posts-table" id="postsTable">
+          <div class="table-header">
+            <span>번호</span>
+            <span>제목</span>
+            <span>작성자</span>
+            <span>날짜</span>
+          </div>
+          <div id="postsBody">
+            <div class="loading">게시글을 불러오는 중</div>
+          </div>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination" id="pagination"></div>
+      </div>
+
+      <!-- 글쓰기 뷰 -->
+      <div class="write-view" id="writeView">
+        <div class="form-card">
+          <h2>글쓰기</h2>
+          <form id="postForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="author">작성자</label>
+                <input
+                  type="text"
+                  id="author"
+                  placeholder="이름을 입력하세요"
+                  required
+                  maxlength="50"
+                />
+              </div>
+              <div class="form-group">
+                <label for="password">비밀번호</label>
+                <input
+                  type="password"
+                  id="password"
+                  placeholder="삭제 시 필요"
+                  required
+                  maxlength="20"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="title">제목</label>
+              <input
+                type="text"
+                id="title"
+                placeholder="제목을 입력하세요"
+                required
+                maxlength="100"
+              />
+            </div>
+            <div class="form-group">
+              <label for="content">내용</label>
+              <textarea
+                id="content"
+                placeholder="내용을 입력하세요..."
+                required
+                maxlength="5000"
+              ></textarea>
+            </div>
+            <div class="form-group">
+              <div class="checkbox-group">
+                <input type="checkbox" id="isPrivate" />
+                <label for="isPrivate">비공개 글 (비밀번호 입력 시 열람 가능)</label>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn btn-secondary" onclick="showListView()">
+                취소
+              </button>
+              <button type="submit" class="btn btn-primary" id="submitBtn">
+                작성 완료
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- 상세 뷰 -->
+      <div class="detail-view" id="detailView">
+        <div class="detail-card">
+          <div class="detail-header">
+            <h2 class="detail-title" id="detailTitle"></h2>
+            <div class="detail-meta">
+              <span id="detailAuthor"></span>
+              <span id="detailDate"></span>
+            </div>
+          </div>
+          <div class="detail-content" id="detailContent"></div>
+          <div class="detail-actions">
+            <button class="btn-back" onclick="showListView()">목록으로</button>
+            <div class="detail-actions-right">
+              <button class="btn-edit" onclick="showEditModal()">수정</button>
+              <button class="btn-delete" onclick="showDeleteModal()">삭제</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 비밀번호 모달 -->
+    <div class="modal-overlay" id="passwordModal">
+      <div class="modal">
+        <h3 id="modalTitle">비밀번호 입력</h3>
+        <p id="modalDesc">비공개 글입니다. 비밀번호를 입력하세요.</p>
+        <div class="form-group">
+          <input
+            type="password"
+            id="modalPassword"
+            placeholder="비밀번호"
+            maxlength="20"
+          />
+        </div>
+        <div class="modal-actions">
+          <button class="btn btn-secondary" onclick="closeModal()">취소</button>
+          <button class="btn btn-primary" id="modalConfirmBtn" onclick="confirmPassword()">확인</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2025 Vibe Coding 김종건. All rights reserved.</p>
+    </footer>
+
+    <!-- Config & Supabase SDK -->
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+      // Supabase 클라이언트 초기화
+      const supabaseClient = window.supabase.createClient(
+        CONFIG.SUPABASE_URL,
+        CONFIG.SUPABASE_ANON_KEY
+      );
+
+      // 상태
+      let posts = [];
+      let currentPost = null;
+      let modalMode = "view"; // 'view', 'delete', or 'edit'
+      let isEditMode = false;
+
+      // 페이지네이션 상태
+      const POSTS_PER_PAGE = 10;
+      let currentPage = 1;
+      let totalPosts = 0;
+      let totalPages = 0;
+
+      // DOM 요소
+      const listView = document.getElementById("listView");
+      const writeView = document.getElementById("writeView");
+      const detailView = document.getElementById("detailView");
+      const postsBody = document.getElementById("postsBody");
+      const postForm = document.getElementById("postForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const passwordModal = document.getElementById("passwordModal");
+      const paginationEl = document.getElementById("pagination");
+
+      // 뷰 전환
+      function showListView(resetPage = false) {
+        listView.classList.remove("hidden");
+        writeView.classList.remove("active");
+        detailView.classList.remove("active");
+        currentPost = null;
+        loadPosts(resetPage ? 1 : currentPage);
+      }
+
+      function showWriteView() {
+        listView.classList.add("hidden");
+        writeView.classList.add("active");
+        detailView.classList.remove("active");
+        postForm.reset();
+        isEditMode = false;
+        document.querySelector("#writeView h2").textContent = "글쓰기";
+        document.getElementById("submitBtn").textContent = "작성 완료";
+        document.getElementById("password").placeholder = "삭제/수정 시 필요";
+      }
+
+      function showEditView(post) {
+        listView.classList.add("hidden");
+        writeView.classList.add("active");
+        detailView.classList.remove("active");
+        isEditMode = true;
+        currentPost = post;
+
+        document.querySelector("#writeView h2").textContent = "글 수정";
+        document.getElementById("submitBtn").textContent = "수정 완료";
+        document.getElementById("author").value = post.author;
+        document.getElementById("title").value = post.title;
+        document.getElementById("content").value = post.content;
+        document.getElementById("isPrivate").checked = post.is_private;
+        document.getElementById("password").value = "";
+        document.getElementById("password").placeholder = "비밀번호 확인";
+      }
+
+      function showDetailView(post) {
+        listView.classList.add("hidden");
+        writeView.classList.remove("active");
+        detailView.classList.add("active");
+        currentPost = post;
+
+        document.getElementById("detailTitle").innerHTML =
+          post.is_private
+            ? `${escapeHtml(post.title)} <span class="badge-private">비공개</span>`
+            : escapeHtml(post.title);
+        document.getElementById("detailAuthor").textContent = `작성자: ${post.author}`;
+        document.getElementById("detailDate").textContent = formatDate(post.created_at);
+        document.getElementById("detailContent").textContent = post.content;
+      }
+
+      // 게시글 불러오기
+      async function loadPosts(page = 1) {
+        postsBody.innerHTML = '<div class="loading">게시글을 불러오는 중</div>';
+        paginationEl.innerHTML = '';
+        currentPage = page;
+
+        try {
+          // 전체 개수 조회
+          const { count, error: countError } = await supabaseClient
+            .from("posts")
+            .select("*", { count: "exact", head: true });
+          if (countError) throw countError;
+
+          totalPosts = count;
+          totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+
+          if (totalPosts === 0) {
+            postsBody.innerHTML = '<div class="empty">아직 게시글이 없습니다. 첫 번째 글을 작성해보세요!</div>';
+            return;
+          }
+
+          // 페이지별 데이터 조회
+          const from = (page - 1) * POSTS_PER_PAGE;
+          const to = from + POSTS_PER_PAGE - 1;
+
+          const { data, error } = await supabaseClient
+            .from("posts")
+            .select("id, author, title, is_private, created_at")
+            .order("created_at", { ascending: false })
+            .range(from, to);
+
+          if (error) throw error;
+
+          posts = data;
+          renderPosts(data, from);
+          renderPagination();
+        } catch (error) {
+          console.error("Error loading posts:", error);
+          postsBody.innerHTML = '<div class="error">게시글을 불러오는데 실패했습니다.</div>';
+        }
+      }
+
+      // 게시글 목록 렌더링
+      function renderPosts(data, startIndex) {
+        postsBody.innerHTML = data
+          .map(
+            (post, index) => `
+          <div class="post-row" onclick="handlePostClick(${post.id}, ${post.is_private})">
+            <span class="post-num">${totalPosts - startIndex - index}</span>
+            <span class="post-title-cell">
+              <span class="post-title-text">${escapeHtml(post.title)}</span>
+              ${post.is_private ? '<span class="badge-private">비공개</span>' : ""}
+            </span>
+            <span class="post-author">${escapeHtml(post.author)}</span>
+            <span class="post-date">${formatDateShort(post.created_at)}</span>
+          </div>
+        `
+          )
+          .join("");
+      }
+
+      // 페이지네이션 렌더링
+      function renderPagination() {
+        if (totalPages <= 1) {
+          paginationEl.innerHTML = '';
+          return;
+        }
+
+        let html = '';
+
+        // 이전 버튼
+        html += `<button class="page-btn nav-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>이전</button>`;
+
+        // 페이지 번호들
+        const maxVisiblePages = 5;
+        let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+
+        if (endPage - startPage + 1 < maxVisiblePages) {
+          startPage = Math.max(1, endPage - maxVisiblePages + 1);
+        }
+
+        if (startPage > 1) {
+          html += `<button class="page-btn" onclick="goToPage(1)">1</button>`;
+          if (startPage > 2) {
+            html += `<span class="page-info">...</span>`;
+          }
+        }
+
+        for (let i = startPage; i <= endPage; i++) {
+          html += `<button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="goToPage(${i})">${i}</button>`;
+        }
+
+        if (endPage < totalPages) {
+          if (endPage < totalPages - 1) {
+            html += `<span class="page-info">...</span>`;
+          }
+          html += `<button class="page-btn" onclick="goToPage(${totalPages})">${totalPages}</button>`;
+        }
+
+        // 다음 버튼
+        html += `<button class="page-btn nav-btn" onclick="goToPage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>다음</button>`;
+
+        paginationEl.innerHTML = html;
+      }
+
+      // 페이지 이동
+      function goToPage(page) {
+        if (page < 1 || page > totalPages || page === currentPage) return;
+        loadPosts(page);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+
+      // 게시글 클릭 처리
+      async function handlePostClick(id, isPrivate) {
+        if (isPrivate) {
+          modalMode = "view";
+          currentPost = { id };
+          document.getElementById("modalTitle").textContent = "비밀번호 입력";
+          document.getElementById("modalDesc").textContent = "비공개 글입니다. 비밀번호를 입력하세요.";
+          document.getElementById("modalPassword").value = "";
+          passwordModal.classList.add("active");
+        } else {
+          await loadPostDetail(id);
+        }
+      }
+
+      // 게시글 상세 불러오기
+      async function loadPostDetail(id, password = null) {
+        try {
+          let query = supabaseClient.from("posts").select("*").eq("id", id);
+
+          if (password) {
+            query = query.eq("password", password);
+          }
+
+          const { data, error } = await query.single();
+
+          if (error || !data) {
+            if (password) {
+              alert("비밀번호가 일치하지 않습니다.");
+              return false;
+            }
+            throw error;
+          }
+
+          showDetailView(data);
+          return true;
+        } catch (error) {
+          console.error("Error loading post:", error);
+          alert("게시글을 불러오는데 실패했습니다.");
+          return false;
+        }
+      }
+
+      // 게시글 작성
+      postForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const author = document.getElementById("author").value.trim();
+        const password = document.getElementById("password").value;
+        const title = document.getElementById("title").value.trim();
+        const content = document.getElementById("content").value.trim();
+        const isPrivate = document.getElementById("isPrivate").checked;
+
+        if (!author || !password || !title || !content) {
+          alert("모든 필드를 입력해주세요.");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = isEditMode ? "수정 중..." : "작성 중...";
+
+        try {
+          if (isEditMode) {
+            // 비밀번호 확인
+            const { data: checkData } = await supabaseClient
+              .from("posts")
+              .select("id")
+              .eq("id", currentPost.id)
+              .eq("password", password)
+              .single();
+
+            if (!checkData) {
+              alert("비밀번호가 일치하지 않습니다.");
+              submitBtn.disabled = false;
+              submitBtn.textContent = "수정 완료";
+              return;
+            }
+
+            // 수정 실행
+            const { error } = await supabaseClient
+              .from("posts")
+              .update({
+                author,
+                title,
+                content,
+                is_private: isPrivate,
+              })
+              .eq("id", currentPost.id);
+
+            if (error) throw error;
+
+            alert("게시글이 수정되었습니다.");
+            showListView();
+          } else {
+            // 새 글 작성
+            const { error } = await supabaseClient.from("posts").insert([
+              {
+                author,
+                password,
+                title,
+                content,
+                is_private: isPrivate,
+              },
+            ]);
+
+            if (error) throw error;
+
+            alert("게시글이 작성되었습니다.");
+            showListView(true);
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          alert(isEditMode ? "게시글 수정에 실패했습니다." : "게시글 작성에 실패했습니다.");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.textContent = isEditMode ? "수정 완료" : "작성 완료";
+        }
+      });
+
+      // 수정 모달 표시
+      function showEditModal() {
+        modalMode = "edit";
+        document.getElementById("modalTitle").textContent = "글 수정";
+        document.getElementById("modalDesc").textContent = "수정하려면 비밀번호를 입력하세요.";
+        document.getElementById("modalPassword").value = "";
+        passwordModal.classList.add("active");
+      }
+
+      // 삭제 모달 표시
+      function showDeleteModal() {
+        modalMode = "delete";
+        document.getElementById("modalTitle").textContent = "게시글 삭제";
+        document.getElementById("modalDesc").textContent = "삭제하려면 비밀번호를 입력하세요.";
+        document.getElementById("modalPassword").value = "";
+        passwordModal.classList.add("active");
+      }
+
+      // 모달 닫기
+      function closeModal() {
+        passwordModal.classList.remove("active");
+        document.getElementById("modalPassword").value = "";
+      }
+
+      // 비밀번호 확인
+      async function confirmPassword() {
+        const password = document.getElementById("modalPassword").value;
+
+        if (!password) {
+          alert("비밀번호를 입력하세요.");
+          return;
+        }
+
+        if (modalMode === "view") {
+          const success = await loadPostDetail(currentPost.id, password);
+          if (success) closeModal();
+        } else if (modalMode === "edit") {
+          await verifyAndEdit(password);
+        } else if (modalMode === "delete") {
+          await deletePost(password);
+        }
+      }
+
+      // 비밀번호 확인 후 수정 폼으로 이동
+      async function verifyAndEdit(password) {
+        try {
+          const { data } = await supabaseClient
+            .from("posts")
+            .select("*")
+            .eq("id", currentPost.id)
+            .eq("password", password)
+            .single();
+
+          if (!data) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+          }
+
+          closeModal();
+          showEditView(data);
+        } catch (error) {
+          console.error("Error verifying password:", error);
+          alert("비밀번호가 일치하지 않습니다.");
+        }
+      }
+
+      // 게시글 삭제
+      async function deletePost(password) {
+        try {
+          // 비밀번호 확인
+          const { data: checkData } = await supabaseClient
+            .from("posts")
+            .select("id")
+            .eq("id", currentPost.id)
+            .eq("password", password)
+            .single();
+
+          if (!checkData) {
+            alert("비밀번호가 일치하지 않습니다.");
+            return;
+          }
+
+          const { error } = await supabaseClient
+            .from("posts")
+            .delete()
+            .eq("id", currentPost.id);
+
+          if (error) throw error;
+
+          alert("게시글이 삭제되었습니다.");
+          closeModal();
+          showListView();
+        } catch (error) {
+          console.error("Error deleting post:", error);
+          alert("삭제에 실패했습니다.");
+        }
+      }
+
+      // 유틸리티 함수
+      function escapeHtml(text) {
+        const div = document.createElement("div");
+        div.textContent = text;
+        return div.innerHTML;
+      }
+
+      function formatDate(dateStr) {
+        return new Date(dateStr).toLocaleDateString("ko-KR", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+        });
+      }
+
+      function formatDateShort(dateStr) {
+        return new Date(dateStr).toLocaleDateString("ko-KR", {
+          month: "2-digit",
+          day: "2-digit",
+        });
+      }
+
+      // 모바일 메뉴 토글
+      function toggleMenu() {
+        document.querySelector(".hamburger").classList.toggle("active");
+        document.getElementById("mobileMenu").classList.toggle("active");
+        document.body.style.overflow = document
+          .getElementById("mobileMenu")
+          .classList.contains("active")
+          ? "hidden"
+          : "";
+      }
+
+      // 모달 외부 클릭 시 닫기
+      passwordModal.addEventListener("click", (e) => {
+        if (e.target === passwordModal) closeModal();
+      });
+
+      // Enter 키로 모달 확인
+      document.getElementById("modalPassword").addEventListener("keypress", (e) => {
+        if (e.key === "Enter") confirmPassword();
+      });
+
+      // 초기 로드
+      loadPosts();
+    </script>
+  </body>
+</html>
