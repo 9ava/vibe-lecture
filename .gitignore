@@ -6,3 +6,6 @@
 
 # MCP config
 .mcp.json
+
+# Supabase
+supabase/.temp/
