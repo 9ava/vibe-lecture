@@ -193,6 +193,127 @@
         background: #e0e0e0;
       }
 
+      .os-tabs {
+        display: flex;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .os-tab {
+        padding: 0.75rem 1.5rem;
+        border: 2px solid #e0e0e0;
+        background: white;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        color: #555;
+        transition: all 0.2s;
+      }
+
+      .os-tab:hover {
+        border-color: #6366f1;
+        color: #6366f1;
+      }
+
+      .os-tab.active {
+        background: #6366f1;
+        border-color: #6366f1;
+        color: white;
+      }
+
+      .os-content {
+        display: none;
+      }
+
+      .os-content.active {
+        display: block;
+      }
+
+      .install-step {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        align-items: flex-start;
+      }
+
+      .step-number {
+        background: #6366f1;
+        color: white;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+      }
+
+      .step-content {
+        flex: 1;
+      }
+
+      .step-content h4 {
+        margin-bottom: 0.5rem;
+        color: #1a1a2e;
+      }
+
+      .step-content p {
+        margin: 0;
+        color: #555;
+        font-size: 0.95rem;
+      }
+
+      .step-content a {
+        color: #6366f1;
+        text-decoration: none;
+      }
+
+      .step-content a:hover {
+        text-decoration: underline;
+      }
+
+      .install-note {
+        background: #fff3cd;
+        border-left: 4px solid #ffc107;
+        padding: 1rem;
+        border-radius: 0 8px 8px 0;
+        margin-top: 1rem;
+      }
+
+      .install-note p {
+        margin: 0;
+        color: #856404;
+        font-size: 0.95rem;
+      }
+
+      .step-image {
+        margin-top: 1rem;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 1px solid #e0e0e0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .step-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .step-image-caption {
+        background: #f0f0f0;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+        color: #666;
+        text-align: center;
+      }
+
       @media (max-width: 768px) {
         .lecture-header {
           padding: 2rem;
@@ -209,6 +330,14 @@
 
         .nav-links {
           display: none;
+        }
+
+        .os-tabs {
+          flex-direction: column;
+        }
+
+        .os-tab {
+          text-align: center;
         }
       }
     </style>
@@ -289,6 +418,286 @@
       </div>
 
       <div class="content-section">
+        <h2>VS Code 설치하기</h2>
+        <p>
+          바이브 코딩을 시작하기 위해 먼저 VS Code(Visual Studio Code)를
+          설치해야 합니다. 사용하시는 운영체제를 선택해주세요.
+        </p>
+
+        <div class="os-tabs">
+          <button class="os-tab active" onclick="showOS('windows')">
+            Windows
+          </button>
+          <button class="os-tab" onclick="showOS('mac')">macOS</button>
+        </div>
+
+        <!-- Windows 설치 가이드 -->
+        <div id="windows" class="os-content active">
+          <div class="install-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>VS Code 다운로드</h4>
+              <p>
+                <a href="https://code.visualstudio.com" target="_blank"
+                  >https://code.visualstudio.com</a
+                >
+                에 접속하여 "Download for Windows" 버튼을 클릭합니다.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/images/product-screenshot.png"
+                  alt="VS Code 다운로드 페이지"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  VS Code 공식 홈페이지 - 파란색 다운로드 버튼 클릭
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>설치 파일 실행</h4>
+              <p>
+                다운로드된 <strong>VSCodeUserSetup-x64-*.exe</strong> 파일을
+                실행합니다.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/docs/getstarted/introvideos/getting-started.png"
+                  alt="VS Code 시작하기"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  다운로드 폴더에서 설치 파일을 더블클릭하여 실행
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>설치 옵션 선택</h4>
+              <p>
+                "동의합니다"를 선택하고 다음을 클릭합니다. 설치 옵션에서
+                <strong>"PATH에 추가"</strong>와
+                <strong>"Open with Code 작업을 추가"</strong> 옵션을 체크하는
+                것을 권장합니다.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/docs/getstarted/introvideos/personalize-themes.png"
+                  alt="VS Code 설정"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  설치 옵션에서 PATH 추가와 컨텍스트 메뉴 옵션을 체크하세요
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>설치 완료</h4>
+              <p>
+                설치를 클릭하고 완료될 때까지 기다립니다. 설치가 완료되면 VS
+                Code를 실행합니다.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/docs/getstarted/userinterface/hero.png"
+                  alt="VS Code 메인 인터페이스"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  VS Code 실행 화면 - 왼쪽 사이드바, 편집기, 상태바로 구성
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h4>확장 프로그램 설치 (선택)</h4>
+              <p>
+                왼쪽 사이드바에서 확장(Extensions) 아이콘을 클릭하거나
+                <strong>Ctrl + Shift + X</strong>를 눌러 필요한 확장 프로그램을
+                설치할 수 있습니다. 한국어 팩, Python, Live Server 등을 추천합니다.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/docs/getstarted/introvideos/extensions.png"
+                  alt="VS Code 확장 프로그램"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  확장 프로그램 마켓플레이스에서 필요한 도구 설치
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-note">
+            <p>
+              <strong>Tip:</strong> 설치 후 시작 메뉴에서 "Visual Studio Code"를
+              검색하거나, 바탕화면 바로가기로 실행할 수 있습니다.
+            </p>
+          </div>
+        </div>
+
+        <!-- macOS 설치 가이드 -->
+        <div id="mac" class="os-content">
+          <div class="install-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>VS Code 다운로드</h4>
+              <p>
+                <a href="https://code.visualstudio.com" target="_blank"
+                  >https://code.visualstudio.com</a
+                >
+                에 접속하여 "Download for Mac" 버튼을 클릭합니다. Apple Silicon
+                (M1/M2/M3) Mac을 사용하신다면 "Apple Silicon" 버전을
+                선택해주세요.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/images/product-screenshot.png"
+                  alt="VS Code 다운로드 페이지"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  VS Code 공식 홈페이지 - Mac용 다운로드 버튼 클릭
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>압축 파일 해제</h4>
+              <p>
+                다운로드된 <strong>VSCode-darwin-*.zip</strong> 파일을
+                더블클릭하여 압축을 해제합니다.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/docs/getstarted/introvideos/getting-started.png"
+                  alt="VS Code 시작하기"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  다운로드 폴더에서 zip 파일을 더블클릭하여 압축 해제
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>응용 프로그램 폴더로 이동</h4>
+              <p>
+                압축 해제된 <strong>Visual Studio Code.app</strong> 파일을
+                <strong>응용 프로그램(Applications)</strong> 폴더로
+                드래그합니다.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/home/swimlane-anywhere.png"
+                  alt="VS Code 앱"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  Finder에서 Applications 폴더로 앱을 드래그하여 이동
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>VS Code 실행</h4>
+              <p>
+                응용 프로그램 폴더에서 Visual Studio Code를 더블클릭하여
+                실행합니다. 처음 실행 시 "인터넷에서 다운로드한 앱입니다" 경고가
+                나타나면 "열기"를 클릭합니다.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/docs/getstarted/userinterface/hero.png"
+                  alt="VS Code 메인 인터페이스"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  VS Code 실행 화면 - 왼쪽 사이드바, 편집기, 상태바로 구성
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-step">
+            <div class="step-number">5</div>
+            <div class="step-content">
+              <h4>터미널에서 code 명령어 사용하기 (선택)</h4>
+              <p>
+                VS Code를 실행한 후 <strong>Cmd + Shift + P</strong>를 눌러 명령
+                팔레트를 열고, <strong>"Shell Command: Install 'code' command in PATH"</strong>를
+                입력하여 실행합니다. 이후 터미널에서 <strong>code .</strong> 명령어로
+                현재 폴더를 VS Code로 열 수 있습니다.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/docs/setup/mac/shell-command.png"
+                  alt="Shell Command 설치 화면"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  명령 팔레트에서 "Shell Command: Install 'code' command in PATH" 검색
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-step">
+            <div class="step-number">6</div>
+            <div class="step-content">
+              <h4>확장 프로그램 설치 (선택)</h4>
+              <p>
+                왼쪽 사이드바에서 확장(Extensions) 아이콘을 클릭하거나
+                <strong>Cmd + Shift + X</strong>를 눌러 필요한 확장 프로그램을
+                설치할 수 있습니다. 한국어 팩, Python, Live Server 등을 추천합니다.
+              </p>
+              <div class="step-image">
+                <img
+                  src="https://code.visualstudio.com/assets/docs/getstarted/introvideos/extensions.png"
+                  alt="VS Code 확장 프로그램"
+                  loading="lazy"
+                />
+                <div class="step-image-caption">
+                  확장 프로그램 마켓플레이스에서 필요한 도구 설치
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="install-note">
+            <p>
+              <strong>Tip:</strong> Spotlight (Cmd + Space)에서 "Visual Studio
+              Code"를 검색하거나, Dock에 추가하여 빠르게 실행할 수 있습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-section">
         <h2>강의 자료</h2>
         <div class="download-section">
           <a href="files/1주차 AI를 이용한 웹페이지 만들기 (바이브 코딩) 김종건.pdf" target="_blank" class="btn btn-primary"
@@ -297,5 +706,25 @@
         </div>
       </div>
     </div>
+
+    <script>
+      function showOS(os) {
+        // 모든 탭 비활성화
+        document.querySelectorAll(".os-tab").forEach((tab) => {
+          tab.classList.remove("active");
+        });
+
+        // 모든 콘텐츠 숨기기
+        document.querySelectorAll(".os-content").forEach((content) => {
+          content.classList.remove("active");
+        });
+
+        // 선택된 탭 활성화
+        event.target.classList.add("active");
+
+        // 선택된 콘텐츠 표시
+        document.getElementById(os).classList.add("active");
+      }
+    </script>
   </body>
 </html>
